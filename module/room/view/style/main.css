@@ -1,0 +1,14 @@
+
+ul.role-list li{
+	display: inline-block;
+	margin: 10px;
+}
+
+ul.player-list{
+	margin: 10px;
+}
+
+ul.player-list li{
+	display: inline-block;
+	margin: 10px;
+}

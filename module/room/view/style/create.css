@@ -1,0 +1,14 @@
+
+.role-selector li{
+	display: inline-block;
+	margin: 10px;
+}
+
+.role-selector li.disabled{
+	filter: grayscale(100%);
+	opacity: 0.5;
+}
+
+.role-selector li.selected div{
+	box-shadow: skyblue 0 0 6px 2px;
+}

@@ -1,0 +1,11 @@
+</section>
+<footer>
+	<div class="debug">
+		<div class="copyright">$_CONFIG[sitename]<!--{if !empty($_CONFIG['icp'])}-->($_CONFIG[icp])<!--{/if}-->, Authored by Kazuichi Takashiro © 2017</div>
+		<div class="runtime">
+			GMT {TIMEZONE}, {echo rdate(TIMESTAMP, 'Y-m-d H:i:s')}, Processed in {echo microtime(true) - $_G['starttime']} seconds, {echo $db->query_num()} Quer<!--{if $db->query_num() > 1}-->ies<!--{else}-->y<!--{/if}-->
+		</div>
+	</div>
+</footer>
+</body>
+</html>

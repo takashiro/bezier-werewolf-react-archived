@@ -1,0 +1,133 @@
+
+body{
+	margin: 0;
+	padding: 0;
+	background: #121116 url(starry-night-1.gif) repeat;
+}
+
+body, button, textarea, input{
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+header img{
+	width: 100%;
+}
+
+footer{
+	color: gray;
+	font-size: 7pt;
+	text-align: center;
+	margin: 15px 0;
+}
+
+ul{
+	margin: 0;
+	padding: 0;
+}
+
+li{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+button{
+	background: darkslateblue;
+	color: white;
+	border: 0 solid;
+	padding: 10px 15px;
+}
+
+input[type="text"]{
+	padding: 0.5em 0.8em;
+}
+
+div.toast{
+	background: darkolivegreen;
+	color: white;
+	position: absolute;
+	padding: 15px;
+	width: 70%;
+}
+
+.button-area{
+	margin: 10px;
+	text-align: center;
+}
+
+.role{
+	background: url(roles.jpg) no-repeat;
+	width: 84px;
+	height: 114px;
+	border-radius: 5px;
+}
+
+.role.doppelganger{
+	background-position: 0 0;
+}
+
+.role.werewolf{
+	background-position: -85px 0;
+}
+
+.role.minion{
+	background-position: -171px 0;
+}
+
+.role.robber{
+	background-position: -255px 0;
+}
+
+.role.mason{
+	background-position: 0 -116px;
+}
+
+.role.seer{
+	background-position: -85px -116px;
+}
+
+.role.troublemaker{
+	background-position: -170px -116px;
+}
+
+.role.drunk{
+	background-position: -255px -116px;
+}
+
+.role.insomniac{
+	background-position: 0 -232px;
+}
+
+.role.hunter{
+	background-position: -85px -232px;
+}
+
+.role.villager{
+	background-position: -170px -232px;
+}
+
+.role.tanner{
+	background-position: -255px -232px;
+}
+
+.box{
+	margin: 10px 20px;
+	color: #ddd;
+	font-size: 11pt;
+}
+
+.box h3{
+	color: white;
+	font-size: 14pt;
+	margin: 0 0 10px 0;
+}
+
+form.toast{
+	text-align: center;
+	margin: 20px;
+}
+
+form.toast input[type="text"]{
+	width: 50%;
+	margin: 5px 0;
+}
