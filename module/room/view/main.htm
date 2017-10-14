@@ -14,7 +14,7 @@
 </div>
 
 <div class="box">
-	<h3>Players ({echo count($players)})</h3>
+	<h3>Players (<span id="player-num">{echo count($players)}</span>)</h3>
 	<!--{if $players}-->
 		<ul id="player-list" class="player-list">
 			<!--{loop $players $p}-->
@@ -54,11 +54,14 @@ setInterval(function(){
 	$.get('index.php?mod=room:getplayers&id=$room[id]', {}, function(players){
 		var player_list = $('#player-list');
 		player_list.html('');
+		let player_num = 0;
 		for (let player of players) {
 			let li = $('<li></li>');
 			li.text(player.nickname);
 			player_list.append(li);
+			player_num++;
 		}
+		$('#player-num').text(player_num);
 	}, 'json');
 }, 1000);
 </script>
