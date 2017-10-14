@@ -24,13 +24,9 @@ if(!defined('S_ROOT')) exit('access denied');
 
 if(empty($_GET['id'])) exit('access denied');
 
-$id = intval($_GET['id']);
-
-$players = $db->fetch_all("SELECT r.user_id AS id, u.nickname
-	FROM {$tpre}roomuser r
-		LEFT JOIN {$tpre}simpleuser u ON u.id=r.user_id
-	WHERE r.room_id=$id");
-
+$room = new Room;
+$room->id = intval($_GET['id']);
+$players = $room->getPlayers();
 
 echo json_encode($players);
 exit;

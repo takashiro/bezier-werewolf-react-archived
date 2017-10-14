@@ -32,7 +32,7 @@ if(!$room->exists()){
 
 $user = new SimpleUser;
 if($user->isLoggedIn()){
-	$room->addUser($user->id);
+	$room->addPlayer($user->id);
 }
 
 $players = $db->fetch_all("SELECT r.user_id AS id, u.nickname

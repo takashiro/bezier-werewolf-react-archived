@@ -22,31 +22,34 @@ takashiro@qq.com
 
 if(!defined('S_ROOT')) exit('access denied');
 
-if(empty($_POST['room_id'])) showmsg('illegal operation');
+if(empty($_GET['id'])) exit('access denied');
 
-$room_id = intval($_POST['room_id']);
-if(!Room::Exist($room_id)){
-	showmsg('The room does not exist anymore.');
+$id = intval($_GET['id']);
+$room = new Room($id);
+if(!$room->exists()){
+	showmsg('The room does not exist.');
 }
 
-$room = new Room;
-$room->id = $room_id;
+if($room->status == 0){
+	$db->query("UPDATE {$tpre}room SET status=1 WHERE id={$room->id} AND status=0");
+	if($db->affected_rows > 0){
+		$roles = explode(',', $room->roles);
+		shuffle($roles);
+		$players = $room->getPlayers();
+		foreach($players as $player){
+			$role = each($roles);
+			$db->query("UPDATE {$tpre}roomuser SET role='{$role[1]}' WHERE room_id={$room->id} AND user_id={$player['id']}");
+		}
+	}
+}
 
 $user = new SimpleUser;
-if($user->isLoggedIn()){
-	$room->addPlayer($user->id);
-}else{
-	if(empty($_POST['nickname'])){
-		showmsg('Please type a nickname.');
-	}
-
-	$nickname = htmlspecialchars(trim($_POST['nickname']));
-	$nickname = substr($nickname, 0, 21);
-	$user->nickname = $nickname;
-	$user->insert();
-	$user->login();
-
-	$room->addPlayer($user->id);
+if(!$user->isLoggedIn()){
+	showmsg('You are not in this room.');
 }
 
-showmsg('Welcome to the fantastic One Night Ultimate Werewolf!', 'refresh');
+$role = $db->result_first("SELECT role FROM {$tpre}roomuser WHERE room_id={$room->id} AND user_id={$user->id}");
+
+$players = $room->getPlayers();
+
+include view('start');

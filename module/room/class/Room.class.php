@@ -34,7 +34,7 @@ class Room extends DBObject{
 		}
 	}
 
-	public function addUser($user){
+	public function addPlayer($user){
 		if(is_numeric($user)){
 			$user_id = $user;
 		}elseif(is_array($user)){
@@ -48,6 +48,15 @@ class Room extends DBObject{
 			'room_id' => $this->id,
 			'user_id' => $user_id,
 		), false, 'IGNORE');
+	}
+
+	public function getPlayers(){
+		global $db, $tpre;
+		$players = $db->fetch_all("SELECT r.user_id AS id, u.nickname
+			FROM {$tpre}roomuser r
+				LEFT JOIN {$tpre}simpleuser u ON u.id=r.user_id
+			WHERE r.room_id={$this->id}");
+		return $players;
 	}
 
 }

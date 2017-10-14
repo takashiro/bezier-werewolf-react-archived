@@ -2,6 +2,7 @@
 CREATE TABLE `pre_room` (
 	`id` mediumint(8) unsigned auto_increment,
 	`roles` text NOT NULL,
+	`status` tinyint(4) NOT NULL DEFAULT '0',
 	PRIMARY KEY(`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 

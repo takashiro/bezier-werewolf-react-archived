@@ -12,3 +12,13 @@ ul.player-list li{
 	display: inline-block;
 	margin: 10px;
 }
+
+ul.player-avatar-list li{
+	display: inline-block;
+	margin: 10px;
+	width: 30%;
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	background: darkslategrey;
+}
