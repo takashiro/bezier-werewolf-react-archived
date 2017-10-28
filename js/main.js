@@ -4,6 +4,7 @@ var config = {
 	roomId: 0,
 	roomOwnerId: 0,
 	roles: [],
+	players: [],
 	userId: 0,
 	nickname: ''
 };

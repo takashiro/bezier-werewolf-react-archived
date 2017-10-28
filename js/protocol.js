@@ -35,8 +35,8 @@ server.bind(net.CreateRoom, (room_id)=>{
 	}
 });
 
-server.bind(net.SetUserList, (user_id_list)=>{
-	makeToast(user_id_list.join(','));
+server.bind(net.SetUserList, (players)=>{
+	config.players = players;
 });
 
 server.bind(net.EnterRoom, (info)=>{
@@ -44,4 +44,24 @@ server.bind(net.EnterRoom, (info)=>{
 	config.roomOwnerId = info['owner_id'];
 
 	require('enter-room');
+});
+
+server.bind(net.AddUser, (uid)=>{
+	if(!config.players.some((id)=>{id == uid})){
+		config.players.push(id);
+		if (addPlayer) {
+			addPlayer(id);
+		}
+	}
+});
+
+server.bind(net.RemoveUser, (uid)=>{
+	for (let i = 0; i < config.players.length; i++) {
+		if (uid == config.players[i]) {
+			config.players.splice(i, 1);
+			if (removePlayer) {
+				removePlayer(uid);
+			}
+		}
+	}
 });

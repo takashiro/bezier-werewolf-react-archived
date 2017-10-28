@@ -151,16 +151,7 @@ ul.role-list li{
 	margin: 10px;
 }
 
-ul.player-list{
-	margin: 10px;
-}
-
 ul.player-list li{
-	display: inline-block;
-	margin: 10px;
-}
-
-ul.player-avatar-list li{
 	display: inline-block;
 	margin: 10px;
 	width: 30%;
