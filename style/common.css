@@ -134,7 +134,7 @@ form.toast input[type="text"]{
 
 .role-selector li{
 	display: inline-block;
-	margin: 10px;
+	margin: 2.5px 5px;
 }
 
 .role-selector li.disabled{

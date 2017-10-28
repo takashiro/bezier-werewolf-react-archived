@@ -29,7 +29,7 @@ for (let i = 0; i < 3; i++) {
 }
 root.append(villager_selector);
 
-$('#werewolf-selector, #villager-selector').on('click', 'li', function(){
+var select_first_n = function(){
 	var li = $(this);
 	li.addClass('selected');
 
@@ -44,6 +44,9 @@ $('#werewolf-selector, #villager-selector').on('click', 'li', function(){
 		next.removeClass('selected');
 		next = next.next();
 	}
+};
+[werewolf_selector, villager_selector].forEach((selector)=>{
+	selector.on('click', 'li', select_first_n);
 });
 
 var special_selector = $('<ul></ul>');
