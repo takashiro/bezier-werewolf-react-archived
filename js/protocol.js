@@ -1,4 +1,20 @@
 
+server.bind(net.RequestUserId, (user_id)=>{
+	config.userId = user_id;
+	server.request(net.Login, {
+		uid: user_id
+	});
+});
+
+server.bind(net.Login, (uid)=>{
+	config.userId = uid;
+	if (uid > 0) {
+		server.request(net.RequestRoomId);
+	} else {
+		makeToast('Login failed.');
+	}
+});
+
 server.bind(net.RequestRoomId, (room_id)=>{
 	if (room_id > 0) {
 		config.roomId = room_id;

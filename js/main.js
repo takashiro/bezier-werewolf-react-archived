@@ -3,7 +3,9 @@ var server = new Server;
 var config = {
 	roomId: 0,
 	roomOwnerId: 0,
-	roles: []
+	roles: [],
+	userId: 0,
+	nickname: ''
 };
 
 const net = declareCommands(

@@ -62,6 +62,15 @@ special_selector.on('click', 'li', function(e){
 	$(this).toggleClass('selected');
 });
 
+var form = $('<form></form>');
+form.addClass('toast');
+var name_input = $('<input></input>');
+name_input.attr('type', 'text');
+name_input.attr('id', 'nickname');
+name_input.attr('placeholder', 'Please type your name here');
+form.append(name_input);
+root.append(form);
+
 var button_area = $('<div></div>');
 button_area.addClass('button-area');
 var create_button = $('<button></button>');
@@ -76,10 +85,18 @@ create_button.click(()=>{
 		selected_roles.push($(this).data('role'));
 	});
 
-	if (selected_roles.length <= 0) {
+	if (selected_roles.length < 4) {
 		makeToast('Please select at least 4 roles.');
-	} else {
-		config.roles = selected_roles;
-		server.request(net.RequestRoomId);
+		return;
 	}
+
+	var nickname = name_input.val();
+	if (nickname.length <= 0) {
+		makeToast('Please type your nickname.');
+		return;
+	}
+
+	config.roles = selected_roles;
+	config.nickname = nickname;
+	server.request(net.RequestUserId);
 });
