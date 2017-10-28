@@ -1,12 +1,29 @@
 
 var server = new Server;
+var config = {
+	roomId: 0
+};
+
+const net = declareCommands(
+	'StartGame',
+	'DeliverRoleCard',
+	'ChoosePlayer',
+	'EndGame',
+
+	'AllCommandCount'
+);
 
 function showMessage(message){
 	$('#root').html(`<div class="message">${message}</div>`);
 }
 
 server.on('open', ()=>{
-	require('create-room');
+	if ($_GET['room_id']) {
+		config.roomId = $_GET['room_id'];
+		require('enter-room');
+	} else {
+		require('create-room');
+	}
 });
 
 server.on('close', ()=>{
@@ -14,8 +31,8 @@ server.on('close', ()=>{
 });
 
 $(()=>{
-	if ($_GET.server) {
+	if ($_GET['server']) {
 		showMessage('Loading...');
-		server.connect($_GET.server);
+		server.connect($_GET['server']);
 	}
 });
