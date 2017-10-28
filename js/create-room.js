@@ -1,18 +1,7 @@
-{template header}
 
-<style>
-@import url(extension/module/room/view/style/create.css);
-</style>
+var root = $('#root');
+root.html('');
 
-<ul id="werewolf-selector" class="role-selector"></ul>
-<ul id="villager-selector" class="role-selector"></ul>
-<ul id="special-role-selector" class="role-selector"></ul>
-
-<div class="button-area">
-	<button type="button" id="create-button">CREATE</button>
-</div>
-
-<script>
 function add_role(selector, role, selected = false){
 	let div = $('<div></div>');
 	div.addClass('role');
@@ -26,15 +15,19 @@ function add_role(selector, role, selected = false){
 	selector.append(li);
 }
 
-var werewolf_selector = $('#werewolf-selector');
+var werewolf_selector = $('<div></div>');
+werewolf_selector.addClass('role-selector');
 for (let i = 0; i < 3; i++) {
 	add_role(werewolf_selector, 'werewolf', i == 0);
 }
+root.append(werewolf_selector);
 
-var villager_selector = $('#villager-selector');
+var villager_selector = $('<div></div>');
+villager_selector.addClass('role-selector');
 for (let i = 0; i < 3; i++) {
 	add_role(villager_selector, 'villager', i <= 1);
 }
+root.append(villager_selector);
 
 $('#werewolf-selector, #villager-selector').on('click', 'li', function(){
 	var li = $(this);
@@ -53,7 +46,8 @@ $('#werewolf-selector, #villager-selector').on('click', 'li', function(){
 	}
 });
 
-var special_selector = $('#special-role-selector');
+var special_selector = $('<div></div>');
+special_selector.addClass('role-selector');
 var special_roles = [
 	'doppelganger', 'minion', 'robber',
 	'mason', 'seer', 'troublemaker', 'drunk',
@@ -62,12 +56,21 @@ var special_roles = [
 for (let role of special_roles) {
 	add_role(special_selector, role);
 }
+root.append(special_selector);
 
 special_selector.on('click', 'li', function(e){
 	$(this).toggleClass('selected');
 });
 
-$('#create-button').click(()=>{
+var button_area = $('<div></div>');
+button_area.addClass('button-area');
+var create_button = $('<button></button>');
+create_button.attr('type', 'button');
+create_button.html('CREATE');
+button_area.append(create_button);
+root.append(button_area);
+
+create_button.click(()=>{
 	var selected_roles = [];
 	$('ul.role-selector li.selected').each(function(){
 		selected_roles.push($(this).data('role'));
@@ -85,6 +88,3 @@ $('#create-button').click(()=>{
 		}, 'json');
 	}
 });
-</script>
-
-{template footer}
