@@ -169,3 +169,10 @@ ul.player-avatar-list li{
 	text-align: center;
 	background: darkslategrey;
 }
+
+#root > .message{
+	padding: 80px 10px;
+	font-size: 12pt;
+	color: lightgray;
+	text-align: center;
+}
