@@ -15,14 +15,14 @@ function add_role(selector, role, selected = false){
 	selector.append(li);
 }
 
-var werewolf_selector = $('<div></div>');
+var werewolf_selector = $('<ul></ul>');
 werewolf_selector.addClass('role-selector');
 for (let i = 0; i < 3; i++) {
 	add_role(werewolf_selector, 'werewolf', i == 0);
 }
 root.append(werewolf_selector);
 
-var villager_selector = $('<div></div>');
+var villager_selector = $('<ul></ul>');
 villager_selector.addClass('role-selector');
 for (let i = 0; i < 3; i++) {
 	add_role(villager_selector, 'villager', i <= 1);
@@ -46,7 +46,7 @@ $('#werewolf-selector, #villager-selector').on('click', 'li', function(){
 	}
 });
 
-var special_selector = $('<div></div>');
+var special_selector = $('<ul></ul>');
 special_selector.addClass('role-selector');
 var special_roles = [
 	'doppelganger', 'minion', 'robber',
@@ -79,12 +79,7 @@ create_button.click(()=>{
 	if (selected_roles.length <= 0) {
 		makeToast('Please select at least 4 roles.');
 	} else {
-		$.post('index.php?mod=room:create&ajaxform=1', {roles: selected_roles}, function(response){
-			if (response.room_id) {
-				location.href = 'index.php?mod=room&id=' + response.room_id;
-			} else {
-				makeToast(response);
-			}
-		}, 'json');
+		config.roles = selected_roles;
+		server.request(net.RequestRoomId);
 	}
 });

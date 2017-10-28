@@ -1,7 +1,9 @@
 
 var server = new Server;
 var config = {
-	roomId: 0
+	roomId: 0,
+	roomOwnerId: 0,
+	roles: []
 };
 
 const net = declareCommands(
@@ -18,12 +20,14 @@ function showMessage(message){
 }
 
 server.on('open', ()=>{
-	if ($_GET['room_id']) {
-		config.roomId = $_GET['room_id'];
-		require('enter-room');
-	} else {
-		require('create-room');
-	}
+	require('protocol', ()=>{
+		if ($_GET['room_id']) {
+			config.roomId = $_GET['room_id'];
+			require('enter-room');
+		} else {
+			require('create-room');
+		}
+	});
 });
 
 server.on('close', ()=>{
