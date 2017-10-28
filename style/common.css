@@ -131,3 +131,41 @@ form.toast input[type="text"]{
 	width: 50%;
 	margin: 5px 0;
 }
+
+.role-selector li{
+	display: inline-block;
+	margin: 10px;
+}
+
+.role-selector li.disabled{
+	filter: grayscale(100%);
+	opacity: 0.5;
+}
+
+.role-selector li.selected div{
+	box-shadow: skyblue 0 0 6px 2px;
+}
+
+ul.role-list li{
+	display: inline-block;
+	margin: 10px;
+}
+
+ul.player-list{
+	margin: 10px;
+}
+
+ul.player-list li{
+	display: inline-block;
+	margin: 10px;
+}
+
+ul.player-avatar-list li{
+	display: inline-block;
+	margin: 10px;
+	width: 30%;
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	background: darkslategrey;
+}
