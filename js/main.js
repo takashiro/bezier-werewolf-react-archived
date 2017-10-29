@@ -25,8 +25,7 @@ function showMessage(message){
 server.on('open', ()=>{
 	require('protocol', ()=>{
 		if ($_GET['room_id']) {
-			config.roomId = $_GET['room_id'];
-			require('enter-room');
+			require('join-room');
 		} else {
 			require('create-room');
 		}

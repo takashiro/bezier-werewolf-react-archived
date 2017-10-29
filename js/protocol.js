@@ -9,7 +9,14 @@ server.bind(net.RequestUserId, (user_id)=>{
 server.bind(net.Login, (uid)=>{
 	config.userId = uid;
 	if (uid > 0) {
-		server.request(net.RequestRoomId);
+		if (!$_GET['room_id']) {
+			server.request(net.RequestRoomId);
+		} else {
+			server.request(net.EnterRoom, {
+				id: parseInt($_GET['room_id'], 10),
+				game: 'onenightwerewolf'
+			});
+		}
 	} else {
 		makeToast('Login failed.');
 	}
@@ -48,9 +55,9 @@ server.bind(net.EnterRoom, (info)=>{
 
 server.bind(net.AddUser, (uid)=>{
 	if(!config.players.some((id)=>{id == uid})){
-		config.players.push(id);
+		config.players.push(uid);
 		if (addPlayer) {
-			addPlayer(id);
+			addPlayer(uid);
 		}
 	}
 });
@@ -62,6 +69,7 @@ server.bind(net.RemoveUser, (uid)=>{
 			if (removePlayer) {
 				removePlayer(uid);
 			}
+			break;
 		}
 	}
 });
