@@ -1,4 +1,16 @@
 
+function requestUpdateName(receiver){
+	var arg = {
+		info: {
+			name: config.user.name
+		}
+	};
+	if (typeof receiver != 'undefined') {
+		arg.receiver = receiver;
+	}
+	server.request(net.UpdatePlayer, arg);
+}
+
 server.bind(net.RequestUserId, (user_id)=>{
 	config.user.id = user_id;
 	server.request(net.Login, {
@@ -44,6 +56,7 @@ server.bind(net.CreateRoom, (room_id)=>{
 
 server.bind(net.SetUserList, (players)=>{
 	config.room.players = players;
+	requestUpdateName();
 });
 
 function requestUpdateRoom(){
@@ -83,6 +96,7 @@ server.bind(net.UpdateRoom, (args)=>{
 server.bind(net.AddUser, (uid)=>{
 	if(!config.room.players.some((id)=>{id == uid})){
 		config.room.players.push(uid);
+		requestUpdateName(uid);
 		if (typeof addPlayer == 'function') {
 			addPlayer(uid);
 		}
@@ -99,4 +113,18 @@ server.bind(net.RemoveUser, (uid)=>{
 			break;
 		}
 	}
+});
+
+server.bind(net.UpdatePlayer, (info)=>{
+	var users = $('ul#player-list li');
+	users.each(function(){
+		var user = $(this);
+		if(user.data('uid') != info.id) {
+			return;
+		}
+
+		if (info.name) {
+			user.text(info.name);
+		}
+	});
 });

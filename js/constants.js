@@ -1,5 +1,6 @@
 
 const net = declareCommands(
+	'UpdatePlayer',
 	'DeliverRoleCard',
 	'ChoosePlayer',
 	'EndGame',
