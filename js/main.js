@@ -9,15 +9,6 @@ var config = {
 	nickname: ''
 };
 
-const net = declareCommands(
-	'StartGame',
-	'DeliverRoleCard',
-	'ChoosePlayer',
-	'EndGame',
-
-	'AllCommandCount'
-);
-
 function showMessage(message){
 	$('#root').html(`<div class="message">${message}</div>`);
 }

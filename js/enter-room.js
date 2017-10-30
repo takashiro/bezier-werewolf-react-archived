@@ -4,12 +4,17 @@ root.html('');
 
 var role_box = $('<div class="box"><h3>Roles</h3></div>');
 var role_list = $('<ul class="role-list"><ul>');
-config.roles.forEach((role)=>{
-	var li = $(`<li><div class="role ${role}"></div></li>`);
-	role_list.append(li);
-});
 role_box.append(role_list);
 root.append(role_box);
+
+function updateRoles(){
+	role_list.html('');
+	config.roles.forEach((role)=>{
+		var li = $(`<li><div class="role ${role}"></div></li>`);
+		role_list.append(li);
+	});
+}
+updateRoles();
 
 var online_box = $('<div class="box"><h3>Players</h3></div>');
 var online_list = $('<ul id="player-list" class="player-list"></ul>');

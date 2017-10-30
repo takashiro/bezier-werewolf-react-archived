@@ -46,17 +46,44 @@ server.bind(net.SetUserList, (players)=>{
 	config.players = players;
 });
 
+function requestUpdateRoom(){
+	let roles = [];
+	config.roles.forEach((str)=>{
+		roles.push(PlayerRole.convertToNum(str));
+	});
+
+	server.request(net.UpdateRoom, {
+		roles: roles
+	});
+}
+
 server.bind(net.EnterRoom, (info)=>{
 	config.roomId = info['room_id'];
 	config.roomOwnerId = info['owner_id'];
 
 	require('enter-room');
+	if (config.roomOwnerId == config.userId) {
+		requestUpdateRoom();
+	}
+});
+
+server.bind(net.UpdateRoom, (args)=>{
+	if (args.roles instanceof Array) {
+		config.roles = [];
+		args.roles.forEach((num)=>{
+			config.roles.push(PlayerRole.convertToString(num));
+		});
+
+		if (typeof updateRoles == 'function') {
+			updateRoles();
+		}
+	}
 });
 
 server.bind(net.AddUser, (uid)=>{
 	if(!config.players.some((id)=>{id == uid})){
 		config.players.push(uid);
-		if (addPlayer) {
+		if (typeof addPlayer == 'function') {
 			addPlayer(uid);
 		}
 	}
@@ -66,7 +93,7 @@ server.bind(net.RemoveUser, (uid)=>{
 	for (let i = 0; i < config.players.length; i++) {
 		if (uid == config.players[i]) {
 			config.players.splice(i, 1);
-			if (removePlayer) {
+			if (typeof removePlayer == 'function') {
 				removePlayer(uid);
 			}
 			break;
