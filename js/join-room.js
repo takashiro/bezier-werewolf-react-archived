@@ -26,6 +26,6 @@ join_button.click(()=>{
 		return;
 	}
 
-	config.nickname = nickname;
+	config.user.name = nickname;
 	server.request(net.RequestUserId);
 });

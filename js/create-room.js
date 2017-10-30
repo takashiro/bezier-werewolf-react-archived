@@ -99,7 +99,7 @@ create_button.click(()=>{
 		return;
 	}
 
-	config.roles = selected_roles;
-	config.nickname = nickname;
+	config.room.roles = selected_roles;
+	config.user.name = nickname;
 	server.request(net.RequestUserId);
 });

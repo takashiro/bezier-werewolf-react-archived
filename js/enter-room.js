@@ -9,7 +9,7 @@ root.append(role_box);
 
 function updateRoles(){
 	role_list.html('');
-	config.roles.forEach((role)=>{
+	config.room.roles.forEach((role)=>{
 		var li = $(`<li><div class="role ${role}"></div></li>`);
 		role_list.append(li);
 	});
@@ -28,8 +28,8 @@ function addPlayer(id){
 	online_list.append(li);
 	return li;
 }
-addPlayer(config.userId).html(config.nickname);
-config.players.forEach(addPlayer);
+addPlayer(config.user.id).html(config.user.name);
+config.room.players.forEach(addPlayer);
 
 function removePlayer(id){
 	online_list.children().each(function(){

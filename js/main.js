@@ -1,12 +1,18 @@
 
 var server = new Server;
 var config = {
-	roomId: 0,
-	roomOwnerId: 0,
-	roles: [],
-	players: [],
-	userId: 0,
-	nickname: ''
+	room: {
+		id: 0,
+		owner: {
+			id: 0
+		},
+		roles: [],
+		players: []
+	},
+	user: {
+		id: 0,
+		name: ''
+	}
 };
 
 function showMessage(message){

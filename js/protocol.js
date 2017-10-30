@@ -1,13 +1,13 @@
 
 server.bind(net.RequestUserId, (user_id)=>{
-	config.userId = user_id;
+	config.user.id = user_id;
 	server.request(net.Login, {
 		uid: user_id
 	});
 });
 
 server.bind(net.Login, (uid)=>{
-	config.userId = uid;
+	config.user.id = uid;
 	if (uid > 0) {
 		if (!$_GET['room_id']) {
 			server.request(net.RequestRoomId);
@@ -24,7 +24,7 @@ server.bind(net.Login, (uid)=>{
 
 server.bind(net.RequestRoomId, (room_id)=>{
 	if (room_id > 0) {
-		config.roomId = room_id;
+		config.room.id = room_id;
 		server.request(net.CreateRoom, {
 			id: room_id,
 			game: 'onenightwerewolf'
@@ -36,19 +36,19 @@ server.bind(net.RequestRoomId, (room_id)=>{
 
 server.bind(net.CreateRoom, (room_id)=>{
 	if (room_id > 0) {
-		config.roomId = room_id;
+		config.room.id = room_id;
 	} else {
 		makeToast('Failed to create a new room.');
 	}
 });
 
 server.bind(net.SetUserList, (players)=>{
-	config.players = players;
+	config.room.players = players;
 });
 
 function requestUpdateRoom(){
 	let roles = [];
-	config.roles.forEach((str)=>{
+	config.room.roles.forEach((str)=>{
 		roles.push(PlayerRole.convertToNum(str));
 	});
 
@@ -58,20 +58,20 @@ function requestUpdateRoom(){
 }
 
 server.bind(net.EnterRoom, (info)=>{
-	config.roomId = info['room_id'];
-	config.roomOwnerId = info['owner_id'];
+	config.room.id = info['room_id'];
+	config.room.owner.id = info['owner_id'];
 
 	require('enter-room');
-	if (config.roomOwnerId == config.userId) {
+	if (config.room.owner.id == config.user.id) {
 		requestUpdateRoom();
 	}
 });
 
 server.bind(net.UpdateRoom, (args)=>{
 	if (args.roles instanceof Array) {
-		config.roles = [];
+		config.room.roles = [];
 		args.roles.forEach((num)=>{
-			config.roles.push(PlayerRole.convertToString(num));
+			config.room.roles.push(PlayerRole.convertToString(num));
 		});
 
 		if (typeof updateRoles == 'function') {
@@ -81,8 +81,8 @@ server.bind(net.UpdateRoom, (args)=>{
 });
 
 server.bind(net.AddUser, (uid)=>{
-	if(!config.players.some((id)=>{id == uid})){
-		config.players.push(uid);
+	if(!config.room.players.some((id)=>{id == uid})){
+		config.room.players.push(uid);
 		if (typeof addPlayer == 'function') {
 			addPlayer(uid);
 		}
@@ -90,9 +90,9 @@ server.bind(net.AddUser, (uid)=>{
 });
 
 server.bind(net.RemoveUser, (uid)=>{
-	for (let i = 0; i < config.players.length; i++) {
-		if (uid == config.players[i]) {
-			config.players.splice(i, 1);
+	for (let i = 0; i < config.room.players.length; i++) {
+		if (uid == config.room.players[i]) {
+			config.room.players.splice(i, 1);
 			if (typeof removePlayer == 'function') {
 				removePlayer(uid);
 			}
