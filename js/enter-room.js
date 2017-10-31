@@ -21,6 +21,17 @@ var online_list = $('<ul id="player-list" class="player-list"></ul>');
 online_box.append(online_list);
 root.append(online_box);
 
+if (config.room.owner.id == config.user.id) {
+	var button_area = $('<div class="button-area"></div>');
+	var start_button = $('<button type="button">START</button>');
+	button_area.append(start_button);
+	root.append(button_area);
+
+	start_button.click(()=>{
+		server.request(net.StartGame);
+	});
+}
+
 function addPlayer(id){
 	var li = $('<li></li>');
 	li.data('uid', id);

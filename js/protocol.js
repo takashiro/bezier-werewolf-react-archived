@@ -123,8 +123,20 @@ server.bind(net.UpdatePlayer, (info)=>{
 			return;
 		}
 
-		if (info.name) {
+		if(info.name){
 			user.text(info.name);
 		}
 	});
+});
+
+server.bind(net.StartGame, ()=>{
+	require('start-game');
+});
+
+server.bind(net.DeliverRoleCard, (role)=>{
+	role = PlayerRole.convertToString(role);
+	config.user.role = role;
+	if(typeof updateRole == 'function'){
+		updateRole();
+	}
 });
