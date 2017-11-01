@@ -2,7 +2,12 @@
 const net = declareCommands(
 	'UpdatePlayer',
 	'DeliverRoleCard',
+	'UpdatePhase',
 	'ChoosePlayer',
+	'ChoosePlayerOrCard',
+	'ChooseCard',
+	'ShowPlayerRole',
+	'ShowExtraCard',
 	'EndGame',
 
 	'MaxLimit'
