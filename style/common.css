@@ -161,9 +161,25 @@ ul.player-list li{
 	background: darkslategrey;
 }
 
+#root{
+	position: relative;
+}
+
 #root > .message{
 	padding: 80px 10px;
 	font-size: 12pt;
 	color: lightgray;
 	text-align: center;
+}
+
+#root > .infomation_box{
+    color: white;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+#root > .infomation_box #current_role{
+	width: 8.5em;
+	display: inline-block;
 }

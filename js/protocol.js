@@ -140,3 +140,19 @@ server.bind(net.DeliverRoleCard, (role)=>{
 		updateRole();
 	}
 });
+
+server.bind(net.UpdatePhase, (role)=>{
+	var role_box = $('#current_role');
+	if(role > 0){
+		role = PlayerRole.convertToString(role);
+		role_box.html(role.toUpperCase());
+	}else{
+		role_box.html('Daytime~~');
+	}
+});
+
+server.bind(net.ChoosePlayer, (num)=>{
+	var message_box = $('#message_box');
+	var s = num > 1 ? 's' : '';
+	message_box.html(`Please select ${num} player${s}`);
+});
