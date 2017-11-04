@@ -142,7 +142,7 @@ server.bind(net.DeliverRoleCard, (role)=>{
 });
 
 server.bind(net.UpdatePhase, (role)=>{
-	var role_box = $('#current_role');
+	var role_box = $('#current-role');
 	if(role > 0){
 		role = PlayerRole.convertToString(role);
 		role_box.html(role.toUpperCase());
@@ -151,8 +151,45 @@ server.bind(net.UpdatePhase, (role)=>{
 	}
 });
 
+function enableSelection(list, max_num){
+	list.addClass('selectable');
+	list.unbind('click');
+	list.on('click', 'li', (e)=>{
+		var li = $(e.target);
+		if(li.hasClass('selected')){
+			li.removeClass('selected');
+		}else{
+			let selected_num = list.children('li.selected').length;
+			if(selected_num < max_num){
+				$(e.target).addClass('selected');
+			}
+		}
+	});
+}
+
 server.bind(net.ChoosePlayer, (num)=>{
-	var message_box = $('#message_box');
 	var s = num > 1 ? 's' : '';
-	message_box.html(`Please select ${num} player${s}`);
+	$('#message-box').html(`Please select ${num} player${s}`);
+	enableSelection($('#player-list'), num);
+});
+
+server.bind(net.ChoosePlayerOrCard, (limit)=>{
+	var s1 = limit.player > 1 ? 's' : '';
+	var s2 = limit.card > 1 ? 's' : '';
+	$('#message-box').html(`Please select ${limit.player} player${s1} or ${limit.card} card${s2}`);
+	enableSelection($('#player-list'), limit.player);
+	enableSelection($('#extra-card-list'), limit.card);
+
+	$('#player-list').click(()=>{
+		$('ul#extra-card-list > li').removeClass('selected');
+	});
+	$('#extra-card-list').click(()=>{
+		$('ul#player-list > li').removeClass('selected');
+	});
+});
+
+server.bind(net.ChooseCard, (num)=>{
+	var s = num > 1 ? 's' : '';
+	$('#message-box').html(`Please select ${num} unused card${s}`);
+	enableSelection($('#extra-card-list'), num);
 });

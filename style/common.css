@@ -62,6 +62,10 @@ div.toast{
 	border-radius: 5px;
 }
 
+.role.background{
+	background: gray;
+}
+
 .role.doppelganger{
 	background-position: 0 0;
 }
@@ -161,6 +165,11 @@ ul.player-list li{
 	background: darkslategrey;
 }
 
+ul.player-list li.selected{
+	background: white;
+	color: black;
+}
+
 #root{
 	position: relative;
 }
@@ -172,14 +181,15 @@ ul.player-list li{
 	text-align: center;
 }
 
-#root > .infomation_box{
+#root > .infomation-box{
     color: white;
     position: absolute;
     top: 20px;
-    right: 20px;
+	right: 20px;
+	max-width: 55%;
 }
 
-#root > .infomation_box #current_role{
+#root > .infomation-box #current-role{
 	width: 8.5em;
-	display: inline-block;
+	display: block;
 }

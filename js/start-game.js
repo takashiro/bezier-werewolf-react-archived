@@ -10,14 +10,16 @@ function updateRole(){
 	user_role.append(role_card);
 }
 
+extra_card_box.show();
+
 button_area.html('');
 var confirm_button = $('<button type="button">CONFIRM</button>');
 button_area.append(confirm_button);
 
-var infomation_box = $('<div class="infomation_box"></div>');
-var current_role = $('<div class="current_role">Current Phase: <span id="current_role"></span></div>');
+var infomation_box = $('<div class="infomation-box"></div>');
+var current_role = $('<div class="current-role">Current Phase<span id="current-role"></span></div>');
 infomation_box.append(current_role);
-var message_box = $('<div id="message_box" class="message_box"></div>');
+var message_box = $('<div id="message-box" class="message-box"></div>');
 infomation_box.append(message_box);
 root.append(infomation_box);
 

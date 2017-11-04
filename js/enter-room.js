@@ -2,6 +2,12 @@
 var root = $('#root');
 root.html('');
 
+var room_box = $('<div class="box"><h3>Room ID</h3></div>');
+var room_id = $('<span id="room-id"></span>');
+room_id.html(config.room.id);
+room_box.append(room_id);
+root.append(room_box);
+
 var role_box = $('<div class="box"><h3>Roles</h3></div>');
 var role_list = $('<ul class="role-list"><ul>');
 role_box.append(role_list);
@@ -16,21 +22,30 @@ function updateRoles(){
 }
 updateRoles();
 
+var extra_card_box = $('<div class="box" style="display: none"><h3>Extra Cards</h3></div>');
+var extra_card_list = $('<ul class="role-list" id="extra-card-list"><ul>');
+for (let i = 0; i < 3; i++) {
+	let card = $('<li><div class="role background"></div></li>');
+	extra_card_list.append(card);
+}
+extra_card_box.append(extra_card_list);
+root.append(extra_card_box);
+
 var online_box = $('<div class="box"><h3>Players</h3></div>');
 var online_list = $('<ul id="player-list" class="player-list"></ul>');
 online_box.append(online_list);
 root.append(online_box);
 
+var button_area = $('<div class="button-area"></div>');
 if (config.room.owner.id == config.user.id) {
-	var button_area = $('<div class="button-area"></div>');
 	var start_button = $('<button type="button">START</button>');
 	button_area.append(start_button);
-	root.append(button_area);
 
 	start_button.click(()=>{
 		server.request(net.StartGame);
 	});
 }
+root.append(button_area);
 
 function addPlayer(id){
 	var li = $('<li></li>');
