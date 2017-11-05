@@ -155,6 +155,10 @@ ul.role-list li{
 	margin: 10px;
 }
 
+ul#extra-card-list li.selected div{
+	box-shadow: skyblue 0 0 6px 2px;
+}
+
 ul.player-list li{
 	display: inline-block;
 	margin: 10px;
@@ -192,4 +196,8 @@ ul.player-list li.selected{
 #root > .infomation-box #current-role{
 	width: 8.5em;
 	display: block;
+}
+
+.message-box{
+	margin: 15px 0;
 }

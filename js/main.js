@@ -7,7 +7,16 @@ var config = {
 			id: 0
 		},
 		roles: [],
-		players: []
+		players: [],
+
+		findPlayer: function(uid){
+			for(let player of this.players){
+				if(player.id == uid){
+					return player;
+				}
+				return null;
+			}
+		}
 	},
 	user: {
 		id: 0,

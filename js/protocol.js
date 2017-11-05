@@ -57,7 +57,12 @@ server.bind(net.CreateRoom, (room_id)=>{
 });
 
 server.bind(net.SetUserList, (players)=>{
-	config.room.players = players;
+	config.room.players = [];
+	for(let uid of players){
+		config.room.players.push({
+			id: uid
+		});
+	}
 	requestUpdateName();
 });
 
@@ -89,27 +94,30 @@ server.bind(net.UpdateRoom, (args)=>{
 			config.room.roles.push(PlayerRole.convertToString(num));
 		});
 
-		if (typeof updateRoles == 'function') {
+		if(typeof updateRoles == 'function'){
 			updateRoles();
 		}
 	}
 });
 
 server.bind(net.AddUser, (uid)=>{
-	if(!config.room.players.some((id)=>{id == uid})){
-		config.room.players.push(uid);
+	if(!config.room.players.some((player)=>{player.id == uid})){
+		let player = {
+			id: uid
+		};
+		config.room.players.push(player);
 		requestUpdateName(uid);
-		if (typeof addPlayer == 'function') {
-			addPlayer(uid);
+		if(typeof addPlayer == 'function'){
+			addPlayer(player);
 		}
 	}
 });
 
 server.bind(net.RemoveUser, (uid)=>{
 	for (let i = 0; i < config.room.players.length; i++) {
-		if (uid == config.room.players[i]) {
+		if(uid == config.room.players[i].id){
 			config.room.players.splice(i, 1);
-			if (typeof removePlayer == 'function') {
+			if(typeof removePlayer == 'function'){
 				removePlayer(uid);
 			}
 			break;
@@ -121,12 +129,20 @@ server.bind(net.UpdatePlayer, (info)=>{
 	var users = $('ul#player-list li');
 	users.each(function(){
 		var user = $(this);
-		if(user.data('uid') != info.id) {
+		if(user.data('uid') != info.id){
 			return;
 		}
 
 		if(info.name){
 			user.text(info.name);
+		}
+	});
+
+	config.room.players.forEach((player)=>{
+		if(player.id == info.id){
+			for (let prop in info){
+				player[prop] = info[prop];
+			}
 		}
 	});
 });
@@ -152,20 +168,23 @@ server.bind(net.UpdatePhase, (role)=>{
 		role_box.html('Daytime~~');
 	}
 
-	$('#message-box').html('');
+	$('#prompt-box').html('');
 });
 
 function enableSelection(list, max_num){
 	list.addClass('selectable');
 	list.unbind('click');
 	list.on('click', 'li', (e)=>{
-		var li = $(e.target);
+		var li = $(e.currentTarget);
 		if(li.hasClass('selected')){
 			li.removeClass('selected');
 		}else{
-			let selected_num = list.children('li.selected').length;
-			if(selected_num < max_num){
-				$(e.target).addClass('selected');
+			let selected = list.children('li.selected');
+			if(selected.length < max_num){
+				li.addClass('selected');
+			}else if(max_num == 1){
+				selected.removeClass('selected');
+				li.addClass('selected');
 			}
 		}
 	});
@@ -173,14 +192,14 @@ function enableSelection(list, max_num){
 
 server.bind(net.ChoosePlayer, (num)=>{
 	var s = num > 1 ? 's' : '';
-	$('#message-box').html(`Please select ${num} player${s}`);
+	$('#prompt-box').html(`Please select ${num} player${s}`);
 	enableSelection($('#player-list'), num);
 });
 
 server.bind(net.ChoosePlayerOrCard, (limit)=>{
 	var s1 = limit.player > 1 ? 's' : '';
 	var s2 = limit.card > 1 ? 's' : '';
-	$('#message-box').html(`Please select ${limit.player} player${s1} or ${limit.card} card${s2}`);
+	$('#prompt-box').html(`Please select ${limit.player} player${s1} or ${limit.card} card${s2}`);
 	enableSelection($('#player-list'), limit.player);
 	enableSelection($('#extra-card-list'), limit.card);
 
@@ -194,6 +213,27 @@ server.bind(net.ChoosePlayerOrCard, (limit)=>{
 
 server.bind(net.ChooseCard, (num)=>{
 	var s = num > 1 ? 's' : '';
-	$('#message-box').html(`Please select ${num} unused card${s}`);
+	$('#prompt-box').html(`Please select ${num} unused card${s}`);
 	enableSelection($('#extra-card-list'), num);
+});
+
+server.bind(net.ShowPlayerRole, (info)=>{
+	var player = config.room.findPlayer(info.uid);
+	if(player == null){
+		return;
+	}
+	var role = PlayerRole.convertToString(info.role);
+	var li = $('<li></li>');
+	li.html(`${player.name}: ${role}`);
+	$('ul#answer-box').append(li);
+});
+
+server.bind(net.ShowExtraCard, (info)=>{
+	var extra_card_list = $('ul#extra-card-list > li');
+	var card = extra_card_list.eq(info.id);
+	if(card.length > 0){
+		let role = PlayerRole.convertToString(info.role);
+		card.removeClass('background');
+		card.addClass(role);
+	}
 });

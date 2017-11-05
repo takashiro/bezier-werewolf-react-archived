@@ -71,6 +71,8 @@ confirm_button.click(()=>{
 var infomation_box = $('<div class="infomation-box"></div>');
 var current_role = $('<div class="current-role">Current Phase<span id="current-role"></span></div>');
 infomation_box.append(current_role);
-var message_box = $('<div id="message-box" class="message-box"></div>');
-infomation_box.append(message_box);
+var prompt_box = $('<div id="prompt-box" class="message-box"></div>');
+infomation_box.append(prompt_box);
+var answer_box = $('<ul id="answer-box" class="message-box"></ul>');
+infomation_box.append(answer_box);
 root.append(infomation_box);

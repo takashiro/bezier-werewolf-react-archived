@@ -23,7 +23,7 @@ function updateRoles(){
 updateRoles();
 
 var extra_card_box = $('<div class="box" style="display: none"><h3>Extra Cards</h3></div>');
-var extra_card_list = $('<ul class="role-list" id="extra-card-list"><ul>');
+var extra_card_list = $('<ul class="role-list" id="extra-card-list"></ul>');
 for (let i = 0; i < 3; i++) {
 	let card = $('<li><div class="role background"></div></li>');
 	extra_card_list.append(card);
@@ -47,23 +47,32 @@ if (config.room.owner.id == config.user.id) {
 }
 root.append(button_area);
 
-function addPlayer(id){
+function addPlayer(player){
 	var li = $('<li></li>');
-	li.data('uid', id);
-	li.html(id);
+	li.data('uid', player.id);
+	li.html(player.id);
 	online_list.append(li);
 	return li;
 }
 addPlayer(config.user.id).html(config.user.name);
 config.room.players.forEach(addPlayer);
 
-function removePlayer(id){
+function removePlayer(uid){
 	online_list.children().each(function(){
 		var li = $(this);
-		if(li.data('uid') == id){
+		if(li.data('uid') == uid){
 			li.remove();
 			return false;
 		}
 		return true;
 	});
+
+	let players = config.room.players;
+	for(let i = 0; i < players.length; i++){
+		let player = players[i];
+		if(player.id == uid){
+			players.splice(i, 1);
+			break;
+		}
+	}
 }
