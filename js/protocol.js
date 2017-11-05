@@ -149,6 +149,8 @@ server.bind(net.UpdatePhase, (role)=>{
 	}else{
 		role_box.html('Daytime~~');
 	}
+
+	$('#message-box').html('');
 });
 
 function enableSelection(list, max_num){
