@@ -71,6 +71,10 @@ var name_input = $('<input></input>');
 name_input.attr('type', 'text');
 name_input.attr('id', 'nickname');
 name_input.attr('placeholder', 'Please type your name here');
+var local_nickname = window.localStorage.getItem('nickname');
+if(local_nickname){
+	name_input.val(local_nickname);
+}
 form.append(name_input);
 root.append(form);
 

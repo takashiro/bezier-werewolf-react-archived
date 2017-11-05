@@ -16,6 +16,8 @@ server.bind(net.RequestUserId, (user_id)=>{
 	server.request(net.Login, {
 		uid: user_id
 	});
+
+	window.localStorage.setItem('nickname', config.user.name);
 });
 
 server.bind(net.Login, (uid)=>{
