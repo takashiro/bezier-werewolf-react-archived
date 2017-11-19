@@ -30,11 +30,6 @@ and help players to take actions.
 
 Running Environment
 -------------------
-1. PHP 7.0
-2. MySQL 5
-3. Apache Or IIS
-4. PHP extension: cURL, openssl, mcrypt
-
-Clone Elf Web App and move the repo into a new subdirectory named extension
-in the root directory of Elf.
-Run http://yoursite/install and it will be working.
+1. Nginx Apache Or IIS
+2. [karuta-server](https://github.com/takashiro/karuta-server)
+3. [ONUW Server Extension](https://github.com/takashiro/onenightwerewolf-server)
