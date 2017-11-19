@@ -1,23 +1,7 @@
 
 var server = new Server;
 var config = {
-	room: {
-		id: 0,
-		owner: {
-			id: 0
-		},
-		roles: [],
-		players: [],
-
-		findPlayer: function(uid){
-			for(let player of this.players){
-				if(player.id == uid){
-					return player;
-				}
-				return null;
-			}
-		}
-	},
+	room: new Room,
 	user: {
 		id: 0,
 		name: ''
