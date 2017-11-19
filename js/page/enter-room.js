@@ -49,12 +49,22 @@ root.append(button_area);
 
 function addPlayer(player){
 	var li = $('<li></li>');
+
 	li.data('uid', player.id);
-	li.html(player.id);
+
+	var nickname = $('<div></div>');
+	nickname.addClass('nickname');
+	nickname.text(player.name ? player.name : player.id);
+	li.append(nickname);
+
+	var role_text = $('<div></div>');
+	role_text.addClass('role-text');
+	role_text.html('?');
+	li.append(role_text);
+
 	online_list.append(li);
-	return li;
 }
-addPlayer(config.user.id).html(config.user.name);
+config.room.players.push(config.user);
 config.room.players.forEach(addPlayer);
 
 function removePlayer(uid){

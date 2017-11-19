@@ -81,9 +81,11 @@ server.bind(net.EnterRoom, (info)=>{
 	config.room.id = info['room_id'];
 	config.room.owner.id = info['owner_id'];
 
-	require('page/enter-room');
-	if (config.room.owner.id == config.user.id) {
-		requestUpdateRoom();
+	if (config.room.id > 0) {
+		require('page/enter-room');
+		if (config.room.owner.id == config.user.id) {
+			requestUpdateRoom();
+		}
 	}
 });
 
@@ -130,12 +132,15 @@ server.bind(net.UpdatePlayer, (info)=>{
 	users.each(function(){
 		var user = $(this);
 		if(user.data('uid') != info.id){
-			return;
+			return true;
 		}
 
 		if(info.name){
-			user.text(info.name);
+			var nickname = user.children('.nickname');
+			nickname.text(info.name);
 		}
+
+		return false;
 	});
 
 	config.room.players.forEach((player)=>{
@@ -217,23 +222,52 @@ server.bind(net.ChooseCard, (num)=>{
 	enableSelection($('#extra-card-list'), num);
 });
 
-server.bind(net.ShowPlayerRole, (info)=>{
+function showPlayerRole(info){
 	var player = config.room.findPlayer(info.uid);
 	if(player == null){
 		return;
 	}
 	var role = PlayerRole.convertToString(info.role);
-	var li = $('<li></li>');
-	li.html(`${player.name}: ${role}`);
-	$('ul#answer-box').append(li);
-});
 
-server.bind(net.ShowExtraCard, (info)=>{
+	var players = $('ul#player-list > li');
+	players.each(function(){
+		var li = $(this);
+		if (li.data('uid') == info.uid) {
+			var role_text = li.children('.role-text');
+			role_text.text(role.toUpperCase());
+			return false;
+		}
+		return true;
+	});
+}
+
+server.bind(net.ShowPlayerRole, showPlayerRole);
+
+function showExtraCard(info){
 	var extra_card_list = $('ul#extra-card-list > li');
-	var card = extra_card_list.eq(info.id);
-	if(card.length > 0){
+	var li = extra_card_list.eq(info.id);
+	if(li.length > 0){
+		let card = li.children('.role');
 		let role = PlayerRole.convertToString(info.role);
 		card.removeClass('background');
 		card.addClass(role);
+	}
+}
+
+server.bind(net.ShowExtraCard, showExtraCard);
+
+server.bind(net.EndGame, (arg)=>{
+	if (arg.players) {
+		let players = Array.apply(null, arg.players);
+		players.forEach(showPlayerRole);
+	}
+	if (arg.extra_cards) {
+		let cards = arg.extra_cards;
+		for (let i = 0; i < cards.length; i++) {
+			showExtraCard({
+				id: i,
+				role: cards[i]
+			});
+		}
 	}
 });
