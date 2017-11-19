@@ -31,9 +31,9 @@ function showMessage(message){
 server.on('open', ()=>{
 	require('protocol', ()=>{
 		if ($_GET['room_id']) {
-			require('join-room');
+			require('page/join-room');
 		} else {
-			require('create-room');
+			require('page/create-room');
 		}
 	});
 });

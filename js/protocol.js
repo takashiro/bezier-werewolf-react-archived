@@ -81,7 +81,7 @@ server.bind(net.EnterRoom, (info)=>{
 	config.room.id = info['room_id'];
 	config.room.owner.id = info['owner_id'];
 
-	require('enter-room');
+	require('page/enter-room');
 	if (config.room.owner.id == config.user.id) {
 		requestUpdateRoom();
 	}
@@ -148,7 +148,7 @@ server.bind(net.UpdatePlayer, (info)=>{
 });
 
 server.bind(net.StartGame, ()=>{
-	require('start-game');
+	require('page/start-game');
 });
 
 server.bind(net.DeliverRoleCard, (role)=>{
