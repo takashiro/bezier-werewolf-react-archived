@@ -36,7 +36,7 @@ $(()=>{
 			if(match[1] == 'file'){
 				server.connect('localhost');
 			}else{
-				serrver.connect(match[2]);
+				server.connect(match[2]);
 			}
 		}
 	}
