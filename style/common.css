@@ -57,8 +57,8 @@ div.toast{
 
 .role{
 	background: url(roles.jpg) no-repeat;
-	width: 84px;
-	height: 114px;
+	width: 82px;
+	height: 90px;
 	border-radius: 5px;
 }
 
@@ -115,7 +115,7 @@ div.toast{
 }
 
 .box{
-	margin: 10px 20px;
+	margin: 10px 12px;
 	color: #ddd;
 	font-size: 11pt;
 }
@@ -138,7 +138,7 @@ form.toast input[type="text"]{
 
 .role-selector li{
 	display: inline-block;
-	margin: 2.5px 5px;
+	margin: 5px 7px;
 }
 
 .role-selector li.disabled{
@@ -152,7 +152,7 @@ form.toast input[type="text"]{
 
 ul.role-list li{
 	display: inline-block;
-	margin: 10px;
+	margin: 5px 7px;
 }
 
 ul#extra-card-list li.selected div{

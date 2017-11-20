@@ -15,19 +15,58 @@ function add_role(selector, role, selected = false){
 	selector.append(li);
 }
 
+var team_werewolf = $('<div class="box"><h3>Team Werewolf</h3></div>');
+
 var werewolf_selector = $('<ul></ul>');
 werewolf_selector.addClass('role-selector');
 for (let i = 0; i < 3; i++) {
 	add_role(werewolf_selector, 'werewolf', i == 0);
 }
-root.append(werewolf_selector);
+team_werewolf.append(werewolf_selector);
+
+var minion_selector = $('<ul></ul>');
+minion_selector.addClass('role-selector');
+add_role(minion_selector, 'minion');
+team_werewolf.append(minion_selector);
+
+root.append(team_werewolf);
+
+var team_villager = $('<div class="box"><h3>Team Villager</h3></div>');
 
 var villager_selector = $('<ul></ul>');
 villager_selector.addClass('role-selector');
 for (let i = 0; i < 3; i++) {
 	add_role(villager_selector, 'villager', i <= 1);
 }
-root.append(villager_selector);
+team_villager.append(villager_selector);
+
+var mason_selector = $('<ul></ul>');
+mason_selector.addClass('role-selector');
+for (let i = 0; i < 2; i++) {
+	add_role(mason_selector, 'mason');
+}
+team_villager.append(mason_selector);
+
+var special_selector = $('<ul></ul>');
+special_selector.addClass('role-selector');
+var special_roles = [
+	'doppelganger', 'robber', 'seer',
+	'troublemaker', 'drunk', 'insomniac',
+	'hunter'
+];
+for (let role of special_roles) {
+	add_role(special_selector, role);
+}
+team_villager.append(special_selector);
+
+root.append(team_villager);
+
+var team_tanner = $('<div class="box"><h3>Team Tanner</h3></div>');
+var tanner_selector = $('<ul></ul>');
+tanner_selector.addClass('role-selector');
+add_role(tanner_selector, 'tanner');
+team_tanner.append(tanner_selector);
+root.append(team_tanner);
 
 var select_first_n = function(){
 	var li = $(this);
@@ -49,20 +88,14 @@ var select_first_n = function(){
 	selector.on('click', 'li', select_first_n);
 });
 
-var special_selector = $('<ul></ul>');
-special_selector.addClass('role-selector');
-var special_roles = [
-	'doppelganger', 'minion', 'robber',
-	'mason', 'seer', 'troublemaker', 'drunk',
-	'insomniac', 'hunter', 'tanner'
-];
-for (let role of special_roles) {
-	add_role(special_selector, role);
-}
-root.append(special_selector);
+[special_selector, minion_selector, tanner_selector].forEach((selector) => {
+	selector.on('click', 'li', function(e){
+		$(this).toggleClass('selected');
+	});
+});
 
-special_selector.on('click', 'li', function(e){
-	$(this).toggleClass('selected');
+mason_selector.on('click', 'li', function(){
+	mason_selector.children('li').toggleClass('selected');
 });
 
 var form = $('<form></form>');
