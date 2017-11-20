@@ -162,11 +162,18 @@ ul#extra-card-list li.selected div{
 ul.player-list li{
 	display: inline-block;
 	margin: 10px;
-	width: 30%;
+	width: 135px;
 	padding: 10px 0;
 	line-height: 1.5em;
 	text-align: center;
 	background: darkslategrey;
+}
+
+ul.player-list li > .nickname{
+	width: 90%;
+    margin: auto;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 ul.player-list li > .role-text{
