@@ -80,14 +80,19 @@ function requestUpdateRoom(){
 }
 
 server.bind(net.EnterRoom, (info)=>{
-	config.room.id = info['room_id'];
-	config.room.owner.id = info['owner_id'];
+	if (info) {
+		config.room.id = info['room_id'];
+		config.room.owner.id = info['owner_id'];
 
-	if (config.room.id > 0) {
-		require('page/enter-room');
-		if (config.room.owner.id == config.user.id) {
-			requestUpdateRoom();
+		if (config.room.id > 0) {
+			require('page/enter-room');
+			if (config.room.owner.id == config.user.id) {
+				requestUpdateRoom();
+			}
 		}
+	} else {
+		showMessage('');
+		makeToast('The room doesn\'t exist.');
 	}
 });
 
