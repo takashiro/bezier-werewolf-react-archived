@@ -9,21 +9,21 @@ $_MODULE['page/enter-room'] = ()=>{
 	room_box.append(room_id);
 	root.append(room_box);
 
-	var role_box = $('<div class="box"><h3>Roles</h3></div>');
+	var role_box = $('<div id="role-box" class="box"><h3>Roles</h3></div>');
 	var role_list = $('<ul class="role-list"><ul>');
 	role_box.append(role_list);
 	root.append(role_box);
 
-	function updateRoles(){
+	window.updateRoles = ()=>{
 		role_list.html('');
 		config.room.roles.forEach((role)=>{
 			var li = $(`<li><div class="role ${role}"></div></li>`);
 			role_list.append(li);
 		});
-	}
+	};
 	updateRoles();
 
-	var extra_card_box = $('<div class="box" style="display: none"><h3>Extra Cards</h3></div>');
+	var extra_card_box = $('<div id="extra-card-box" class="box" style="display: none"><h3>Extra Cards</h3></div>');
 	var extra_card_list = $('<ul class="role-list" id="extra-card-list"></ul>');
 	for (let i = 0; i < 3; i++) {
 		let card = $('<li><div class="role background"></div></li>');
