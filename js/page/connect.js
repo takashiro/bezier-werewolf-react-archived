@@ -4,7 +4,11 @@
 
 	server.on('open', ()=>{
 		connected = true;
-		server.request(net.RequestUserId);
+		if (!config.user.id) {
+			server.request(net.RequestUserId);
+		} else {
+			EnterRoom();
+		}
 	});
 
 	server.on('close', ()=>{
@@ -53,15 +57,19 @@ $_MODULE['page/connect'] = ()=>{
 		config.user.name = nickname;
 
 		message_box.html('Connecting...');
-		if($_GET['server']){
-			server.connect($_GET['server']);
-		}else{
-			let match = location.href.match(/^(\w+)\:\/\/(.*?)(?:\/.*)?$/i);
-			if(match){
-				if(match[1] == 'file'){
-					server.connect('localhost');
-				}else{
-					server.connect(match[2]);
+		if (server.connected) {
+			EnterRoom();
+		} else {
+			if ($_GET['server']) {
+				server.connect($_GET['server']);
+			} else {
+				let match = location.href.match(/^(\w+)\:\/\/(.*?)(?:\/.*)?$/i);
+				if (match) {
+					if (match[1] == 'file') {
+						server.connect('localhost');
+					} else {
+						server.connect(match[2]);
+					}
 				}
 			}
 		}
@@ -80,5 +88,8 @@ $_MODULE['page/connect'] = ()=>{
 		connect_server();
 	});
 
-	create_button.click(connect_server);
+	create_button.click(()=>{
+		$_GET['room_id'] = 0;
+		connect_server();
+	});
 };

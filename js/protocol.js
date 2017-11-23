@@ -22,17 +22,21 @@ server.bind(net.RequestUserId, (user_id)=>{
 	window.localStorage.setItem('nickname', config.user.name);
 });
 
+function EnterRoom(){
+	if (!$_GET['room_id']) {
+		require('page/create-room');
+	} else {
+		server.request(net.EnterRoom, {
+			id: parseInt($_GET['room_id'], 10),
+			game: 'onenightwerewolf'
+		});
+	}
+}
+
 server.bind(net.Login, (uid)=>{
 	config.user.id = uid;
 	if (uid > 0) {
-		if (!$_GET['room_id']) {
-			require('page/create-room');
-		} else {
-			server.request(net.EnterRoom, {
-				id: parseInt($_GET['room_id'], 10),
-				game: 'onenightwerewolf'
-			});
-		}
+		EnterRoom();
 	} else {
 		makeToast('Login failed.');
 	}
@@ -288,4 +292,12 @@ server.bind(net.EndGame, (arg)=>{
 			});
 		}
 	}
+
+	let button_area = $('#button-area');
+	let return_button = $('<button type="button">RETURN</button>');
+	return_button.click(()=>{
+		require('page/connect');
+	});
+	button_area.html('');
+	button_area.append(return_button);
 });

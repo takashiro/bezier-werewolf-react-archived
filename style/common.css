@@ -227,7 +227,7 @@ ul.player-list li.selected{
     position: absolute;
     top: 20px;
 	right: 20px;
-	max-width: 55%;
+	width: 48%;
 }
 
 #root > .infomation-box #current-role{
