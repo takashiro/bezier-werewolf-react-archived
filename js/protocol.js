@@ -1,4 +1,6 @@
 
+const server = new Server;
+
 function requestUpdateName(receiver){
 	var arg = {
 		info: {

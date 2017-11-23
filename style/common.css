@@ -126,14 +126,27 @@ div.toast{
 	margin: 0 0 10px 0;
 }
 
-form.toast{
+form.toast,
+.form-dialog{
 	text-align: center;
 	margin: 20px;
 }
 
-form.toast input[type="text"]{
+form.toast input[type="text"],
+.form-dialog input[type="text"]{
 	width: 50%;
-	margin: 5px 0;
+	margin: 15px 0;
+	font-size: 16pt;
+	line-height: 1.2em;
+}
+
+form.toast button,
+.form-dialog button{
+	display: block;
+	margin: 20px auto;
+	width: 50%;
+	font-size: 16pt;
+	line-height: 1.2em;
 }
 
 .role-selector li{
@@ -211,4 +224,12 @@ ul.player-list li.selected{
 
 .message-box{
 	margin: 15px 0;
+}
+
+.inline-message{
+	height: 1.5em;
+	line-height: 1.5em;
+	color: lightgray;
+	margin: 5px 10px;
+	text-align: center;
 }
