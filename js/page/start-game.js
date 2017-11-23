@@ -17,7 +17,7 @@ $_MODULE['page/start-game'] = ()=>{
 	let extra_card_box = $('#extra-card-box');
 	extra_card_box.show();
 
-	let button_area = root.children('.button-area');
+	let button_area = $('#button-area');
 	button_area.html('');
 	var confirm_button = $('<button type="button">CONFIRM</button>');
 	button_area.append(confirm_button);
@@ -75,7 +75,9 @@ $_MODULE['page/start-game'] = ()=>{
 	});
 
 	var infomation_box = $('<div class="infomation-box"></div>');
-	var current_role = $('<div class="current-role">Current Phase<span id="current-role"></span></div>');
+	var current_role = $('<div class="box current-role"><h3>Current Phase</h3></div>');
+	var role_content = $('<span id="current-role"></span>');
+	current_role.append(role_content);
 	infomation_box.append(current_role);
 	var prompt_box = $('<div id="prompt-box" class="message-box"></div>');
 	infomation_box.append(prompt_box);

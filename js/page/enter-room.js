@@ -37,7 +37,7 @@ $_MODULE['page/enter-room'] = ()=>{
 	online_box.append(online_list);
 	root.append(online_box);
 
-	var button_area = $('<div class="button-area"></div>');
+	var button_area = $('<div id="button-area" class="button-area"></div>');
 	if (config.room.owner.id == config.user.id) {
 		var start_button = $('<button type="button">START</button>');
 		button_area.append(start_button);

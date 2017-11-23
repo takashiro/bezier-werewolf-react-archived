@@ -175,9 +175,20 @@ server.bind(net.UpdatePhase, (role)=>{
 	var role_box = $('#current-role');
 	if(role > 0){
 		role = PlayerRole.convertToString(role);
-		role_box.html(role.toUpperCase());
+		let card = $('<div class="role"></div>');
+		card.addClass(role);
+		role_box.html('');
+		role_box.append(card);
 	}else{
 		role_box.html('Daytime~~');
+		let button_area = $('#button-area');
+		button_area.html('');
+
+		let game_over_button = $('<button type="button">GAME OVER</button>');
+		game_over_button.click(()=>{
+			server.request(net.EndGame);
+		});
+		button_area.append(game_over_button);
 	}
 
 	$('#prompt-box').html('');
