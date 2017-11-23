@@ -55,6 +55,12 @@ div.toast{
 	text-align: center;
 }
 
+.button-area button{
+	font-size: 15pt;
+    line-height: 1.4em;
+    padding: 0.5em 1em;
+}
+
 .role{
 	background: url(roles.jpg) no-repeat;
 	width: 82px;
