@@ -61,6 +61,13 @@ div.toast{
     padding: 0.5em 1em;
 }
 
+.role-preloader{
+	background: url(roles.jpg) no-repeat;
+	width: 1px;
+	height: 1px;
+	display: inline-block;
+}
+
 .role{
 	background: url(roles.jpg) no-repeat;
 	width: 82px;
