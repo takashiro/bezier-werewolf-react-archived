@@ -26,7 +26,7 @@ server.bind(net.Login, (uid)=>{
 	config.user.id = uid;
 	if (uid > 0) {
 		if (!$_GET['room_id']) {
-			server.request(net.RequestRoomId);
+			require('page/create-room');
 		} else {
 			server.request(net.EnterRoom, {
 				id: parseInt($_GET['room_id'], 10),
