@@ -12,6 +12,6 @@ function showMessage(message){
 }
 
 $(()=>{
-	showMessage('Loading...');
+	showMessage('Loading connection dialog...');
 	require('page/connect');
 });
