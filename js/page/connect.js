@@ -27,35 +27,24 @@ $_MODULE['page/connect'] = ()=>{
 	let message_box = $('<div id="message-box" class="inline-message"></div>');
 	root.append(message_box);
 
-	let dialog = $('<div class="form-dialog"></div>');
-
-	let nickname_input = $('<input type="text" placeholder="Your name"></input>');
-	let nickname = window.localStorage.getItem('nickname');
-	if(nickname){
-		nickname_input.val(nickname);
-	}
-	dialog.append(nickname_input);
-
-	let room_input = $('<input type="text" placeholder="Room ID"></input>');
-	dialog.append(room_input);
-
-	let join_button = $('<button type="button">JOIN</button>');
-	dialog.append(join_button);
+	let create_dialog = $('<div class="form-dialog"></div>');
 
 	let create_button = $('<button type="button">CREATE</button>');
-	dialog.append(create_button);
+	create_dialog.append(create_button);
 
-	root.append(dialog);
+	root.append(create_dialog);
+
+	let join_dialog = $('<div class="form-dialog"></div>');
+
+	let room_input = $('<input type="text" placeholder="Room ID"></input>');
+	join_dialog.append(room_input);
+
+	let join_button = $('<button type="button">JOIN</button>');
+	join_dialog.append(join_button);
+
+	root.append(join_dialog);
 
 	let connect_server = ()=>{
-		let nickname = nickname_input.val();
-		if (nickname.length <= 0) {
-			makeToast('Please type your nickname.');
-			return;
-		}
-
-		config.user.name = nickname;
-
 		message_box.html('Connecting...');
 		if (server.connected) {
 			EnterRoom();
