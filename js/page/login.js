@@ -25,7 +25,7 @@ $_MODULE['page/login'] = ()=>{
 			return;
 		}
 
-		nickname = nickname.substr(0, 8);
+		nickname = nickname.substr(0, 15);
 		config.user.name = nickname;
 		loadscript('page/connect');
 	});
