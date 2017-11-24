@@ -1,7 +1,7 @@
 One Night Ultimate Werewolf
 ==========
 
-| Example Page | http://onw.takashiro.me |
+| Example Page | http://onuw.takashiro.me |
 |--------------|----------------------------------------|
 | Author       |            Kazuichi Takashiro          |
 
