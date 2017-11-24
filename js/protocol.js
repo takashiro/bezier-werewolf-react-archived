@@ -24,7 +24,7 @@ server.bind(net.RequestUserId, user_id => {
 
 function EnterRoom(){
 	if (!$_GET['room_id']) {
-		require('page/create-room');
+		loadscript('page/create-room');
 	} else {
 		server.request(net.EnterRoom, {
 			id: parseInt($_GET['room_id'], 10),
@@ -89,7 +89,7 @@ server.bind(net.EnterRoom, info => {
 		config.room.owner.id = info['owner_id'];
 
 		if (config.room.id > 0) {
-			require('page/enter-room');
+			loadscript('page/enter-room');
 			if (config.room.owner.id == config.user.id) {
 				requestUpdateRoom();
 			}
@@ -164,7 +164,7 @@ server.bind(net.UpdatePlayer, info => {
 });
 
 server.bind(net.StartGame, ()=>{
-	require('page/start-game');
+	loadscript('page/start-game');
 });
 
 server.bind(net.DeliverRoleCard, role => {
@@ -296,7 +296,7 @@ server.bind(net.EndGame, arg => {
 	let button_area = $('#button-area');
 	let return_button = $('<button type="button">RETURN</button>');
 	return_button.click(() => {
-		require('page/connect');
+		loadscript('page/connect');
 	});
 	button_area.html('');
 	button_area.append(return_button);

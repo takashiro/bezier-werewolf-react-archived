@@ -27,6 +27,6 @@ $_MODULE['page/login'] = ()=>{
 
 		nickname = nickname.substr(0, 8);
 		config.user.name = nickname;
-		require('page/connect');
+		loadscript('page/connect');
 	});
 };

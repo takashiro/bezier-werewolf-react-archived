@@ -13,5 +13,5 @@ function showMessage(message){
 
 $(()=>{
 	showMessage('Loading dialogs...');
-	require('page/login');
+	loadscript('page/login');
 });
