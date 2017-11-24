@@ -57,8 +57,8 @@ div.toast{
 
 .button-area button{
 	font-size: 15pt;
-    line-height: 1.4em;
-    padding: 0.5em 1em;
+	line-height: 1.4em;
+	padding: 0.5em 1em;
 }
 
 .role-preloader{
@@ -76,7 +76,22 @@ div.toast{
 }
 
 .role.background{
-	background: gray;
+	background: gray url(header.jpg) no-repeat;
+	background-position: center;
+	background-size: 220px;
+	padding: 5px;
+	box-sizing: border-box;
+	border: 5px white solid;
+	overflow: hidden;
+	text-align: center;
+}
+
+.role.background:before {
+	content: 'UNKOWN';
+	font-size: 9pt;
+	color: white;
+	line-height: 45px;
+	text-shadow: black 0 0 4px;
 }
 
 .role.doppelganger{
@@ -197,9 +212,9 @@ ul.player-list li{
 
 ul.player-list li > .nickname{
 	width: 90%;
-    margin: auto;
-    text-overflow: ellipsis;
-    overflow: hidden;
+	margin: auto;
+	text-overflow: ellipsis;
+	overflow: hidden;
 }
 
 ul.player-list li > .role-text{
@@ -223,9 +238,9 @@ ul.player-list li.selected{
 }
 
 #root > .infomation-box{
-    color: white;
-    position: absolute;
-    top: 20px;
+	color: white;
+	position: absolute;
+	top: 20px;
 	right: 20px;
 	width: 48%;
 }
