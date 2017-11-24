@@ -13,7 +13,7 @@ function requestUpdateName(receiver){
 	server.request(net.UpdatePlayer, arg);
 }
 
-server.bind(net.RequestUserId, (user_id)=>{
+server.bind(net.RequestUserId, user_id => {
 	config.user.id = user_id;
 	server.request(net.Login, {
 		uid: user_id
@@ -33,7 +33,7 @@ function EnterRoom(){
 	}
 }
 
-server.bind(net.Login, (uid)=>{
+server.bind(net.Login, uid => {
 	config.user.id = uid;
 	if (uid > 0) {
 		EnterRoom();
@@ -42,7 +42,7 @@ server.bind(net.Login, (uid)=>{
 	}
 });
 
-server.bind(net.RequestRoomId, (room_id)=>{
+server.bind(net.RequestRoomId, room_id => {
 	if (room_id > 0) {
 		config.room.id = room_id;
 		server.request(net.CreateRoom, {
@@ -54,7 +54,7 @@ server.bind(net.RequestRoomId, (room_id)=>{
 	}
 });
 
-server.bind(net.CreateRoom, (room_id)=>{
+server.bind(net.CreateRoom, room_id => {
 	if (room_id > 0) {
 		config.room.id = room_id;
 	} else {
@@ -62,7 +62,7 @@ server.bind(net.CreateRoom, (room_id)=>{
 	}
 });
 
-server.bind(net.SetUserList, (players)=>{
+server.bind(net.SetUserList, players => {
 	config.room.players = [];
 	for(let uid of players){
 		config.room.players.push({
@@ -74,7 +74,7 @@ server.bind(net.SetUserList, (players)=>{
 
 function requestUpdateRoom(){
 	let roles = [];
-	config.room.roles.forEach((str)=>{
+	config.room.roles.forEach(str => {
 		roles.push(PlayerRole.convertToNum(str));
 	});
 
@@ -83,7 +83,7 @@ function requestUpdateRoom(){
 	});
 }
 
-server.bind(net.EnterRoom, (info)=>{
+server.bind(net.EnterRoom, info => {
 	if (info) {
 		config.room.id = info['room_id'];
 		config.room.owner.id = info['owner_id'];
@@ -100,7 +100,7 @@ server.bind(net.EnterRoom, (info)=>{
 	}
 });
 
-server.bind(net.UpdateRoom, (args)=>{
+server.bind(net.UpdateRoom, args => {
 	if (args.roles instanceof Array) {
 		config.room.roles = [];
 		args.roles.forEach((num)=>{
@@ -113,7 +113,7 @@ server.bind(net.UpdateRoom, (args)=>{
 	}
 });
 
-server.bind(net.AddUser, (uid)=>{
+server.bind(net.AddUser, uid => {
 	if(!config.room.players.some((player)=>{player.id == uid})){
 		let player = {
 			id: uid
@@ -126,7 +126,7 @@ server.bind(net.AddUser, (uid)=>{
 	}
 });
 
-server.bind(net.RemoveUser, (uid)=>{
+server.bind(net.RemoveUser, uid => {
 	for (let i = 0; i < config.room.players.length; i++) {
 		if(uid == config.room.players[i].id){
 			config.room.players.splice(i, 1);
@@ -138,7 +138,7 @@ server.bind(net.RemoveUser, (uid)=>{
 	}
 });
 
-server.bind(net.UpdatePlayer, (info)=>{
+server.bind(net.UpdatePlayer, info => {
 	var users = $('ul#player-list li');
 	users.each(function(){
 		var user = $(this);
@@ -154,7 +154,7 @@ server.bind(net.UpdatePlayer, (info)=>{
 		return false;
 	});
 
-	config.room.players.forEach((player)=>{
+	config.room.players.forEach(player => {
 		if(player.id == info.id){
 			for (let prop in info){
 				player[prop] = info[prop];
@@ -167,7 +167,7 @@ server.bind(net.StartGame, ()=>{
 	require('page/start-game');
 });
 
-server.bind(net.DeliverRoleCard, (role)=>{
+server.bind(net.DeliverRoleCard, role => {
 	role = PlayerRole.convertToString(role);
 	config.user.role = role;
 	if(typeof updateRole == 'function'){
@@ -175,7 +175,7 @@ server.bind(net.DeliverRoleCard, (role)=>{
 	}
 });
 
-server.bind(net.UpdatePhase, (role)=>{
+server.bind(net.UpdatePhase, role => {
 	var role_box = $('#current-role');
 	if(role > 0){
 		role = PlayerRole.convertToString(role);
@@ -189,7 +189,7 @@ server.bind(net.UpdatePhase, (role)=>{
 		button_area.html('');
 
 		let game_over_button = $('<button type="button">GAME OVER</button>');
-		game_over_button.click(()=>{
+		game_over_button.click(() => {
 			server.request(net.EndGame);
 		});
 		button_area.append(game_over_button);
@@ -201,7 +201,7 @@ server.bind(net.UpdatePhase, (role)=>{
 function enableSelection(list, max_num){
 	list.addClass('selectable');
 	list.unbind('click');
-	list.on('click', 'li', (e)=>{
+	list.on('click', 'li', e => {
 		var li = $(e.currentTarget);
 		if(li.hasClass('selected')){
 			li.removeClass('selected');
@@ -217,13 +217,13 @@ function enableSelection(list, max_num){
 	});
 }
 
-server.bind(net.ChoosePlayer, (num)=>{
+server.bind(net.ChoosePlayer, num => {
 	var s = num > 1 ? 's' : '';
 	$('#prompt-box').html(`Please select ${num} player${s}`);
 	enableSelection($('#player-list'), num);
 });
 
-server.bind(net.ChoosePlayerOrCard, (limit)=>{
+server.bind(net.ChoosePlayerOrCard, limit => {
 	var s1 = limit.player > 1 ? 's' : '';
 	var s2 = limit.card > 1 ? 's' : '';
 	$('#prompt-box').html(`Please select ${limit.player} player${s1} or ${limit.card} card${s2}`);
@@ -238,7 +238,7 @@ server.bind(net.ChoosePlayerOrCard, (limit)=>{
 	});
 });
 
-server.bind(net.ChooseCard, (num)=>{
+server.bind(net.ChooseCard, num => {
 	var s = num > 1 ? 's' : '';
 	$('#prompt-box').html(`Please select ${num} unused card${s}`);
 	enableSelection($('#extra-card-list'), num);
@@ -278,7 +278,7 @@ function showExtraCard(info){
 
 server.bind(net.ShowExtraCard, showExtraCard);
 
-server.bind(net.EndGame, (arg)=>{
+server.bind(net.EndGame, arg => {
 	if (arg.players) {
 		let players = Array.apply(null, arg.players);
 		players.forEach(showPlayerRole);
@@ -295,7 +295,7 @@ server.bind(net.EndGame, (arg)=>{
 
 	let button_area = $('#button-area');
 	let return_button = $('<button type="button">RETURN</button>');
-	return_button.click(()=>{
+	return_button.click(() => {
 		require('page/connect');
 	});
 	button_area.html('');
