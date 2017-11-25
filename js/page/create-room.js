@@ -69,7 +69,10 @@ DeclareModule('page/create-room', () => {
 	team_tanner.append(tanner_selector);
 	root.append(team_tanner);
 
-	var select_first_n = function(){
+	var selection_result = $('<div class="inline-message"></div>');
+	root.append(selection_result);
+
+	var select_first_n = function () {
 		var li = $(this);
 		li.addClass('selected');
 
@@ -85,18 +88,27 @@ DeclareModule('page/create-room', () => {
 			next = next.next();
 		}
 	};
-	[werewolf_selector, villager_selector].forEach((selector)=>{
+
+	[werewolf_selector, villager_selector].forEach(selector => {
 		selector.on('click', 'li', select_first_n);
 	});
 
-	[special_selector, minion_selector, tanner_selector].forEach((selector) => {
+	[special_selector, minion_selector, tanner_selector].forEach(selector => {
 		selector.on('click', 'li', function(e){
 			$(this).toggleClass('selected');
 		});
 	});
 
-	mason_selector.on('click', 'li', function(){
+	mason_selector.on('click', () => {
 		mason_selector.children('li').toggleClass('selected');
+	});
+
+	$('.role-selector').on('click', () => {
+		var role_num = $('.role-selector > li.selected').length;
+		var role_s = role_num > 1 ? 's' : '';
+		var player_num = Math.max(0, role_num - 3);
+		var player_s = player_num > 1 ? 's' : '';
+		selection_result.text(`${role_num} role${role_s}, ${player_num} player${player_s}`);
 	});
 
 	var button_area = $('<div></div>');
