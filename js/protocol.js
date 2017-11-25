@@ -153,6 +153,7 @@ $client.bind(net.UpdatePlayer, info => {
 });
 
 $client.bind(net.StartGame, ()=>{
+	ShowMessage('Loading...');
 	LoadPage('start-game');
 });
 
@@ -187,7 +188,7 @@ $client.bind(net.UpdatePhase, role => {
 	$('#prompt-box').html('');
 });
 
-function enableSelection(list, max_num){
+function EnableSelector(list, max_num){
 	list.addClass('selectable');
 	list.unbind('click');
 	list.on('click', 'li', e => {
@@ -209,15 +210,15 @@ function enableSelection(list, max_num){
 $client.bind(net.ChoosePlayer, num => {
 	var s = num > 1 ? 's' : '';
 	$('#prompt-box').html(`Please select ${num} player${s}`);
-	enableSelection($('#player-list'), num);
+	EnableSelector($('#player-list'), num);
 });
 
 $client.bind(net.ChoosePlayerOrCard, limit => {
 	var s1 = limit.player > 1 ? 's' : '';
 	var s2 = limit.card > 1 ? 's' : '';
 	$('#prompt-box').html(`Please select ${limit.player} player${s1} or ${limit.card} card${s2}`);
-	enableSelection($('#player-list'), limit.player);
-	enableSelection($('#extra-card-list'), limit.card);
+	EnableSelector($('#player-list'), limit.player);
+	EnableSelector($('#extra-card-list'), limit.card);
 
 	$('#player-list').click(()=>{
 		$('ul#extra-card-list > li').removeClass('selected');
@@ -230,10 +231,10 @@ $client.bind(net.ChoosePlayerOrCard, limit => {
 $client.bind(net.ChooseCard, num => {
 	var s = num > 1 ? 's' : '';
 	$('#prompt-box').html(`Please select ${num} unused card${s}`);
-	enableSelection($('#extra-card-list'), num);
+	EnableSelector($('#extra-card-list'), num);
 });
 
-function showPlayerRole(info){
+function ShowPlayerRole(info){
 	var player = $room.findPlayer(info.uid);
 	if(player == null){
 		return;
@@ -252,9 +253,9 @@ function showPlayerRole(info){
 	});
 }
 
-$client.bind(net.ShowPlayerRole, showPlayerRole);
+$client.bind(net.ShowPlayerRole, ShowPlayerRole);
 
-function showExtraCard(info){
+function ShowExtraCard(info){
 	var extra_card_list = $('ul#extra-card-list > li');
 	var li = extra_card_list.eq(info.id);
 	if(li.length > 0){
@@ -265,17 +266,17 @@ function showExtraCard(info){
 	}
 }
 
-$client.bind(net.ShowExtraCard, showExtraCard);
+$client.bind(net.ShowExtraCard, ShowExtraCard);
 
 $client.bind(net.EndGame, arg => {
 	if (arg.players) {
 		let players = Array.apply(null, arg.players);
-		players.forEach(showPlayerRole);
+		players.forEach(ShowPlayerRole);
 	}
 	if (arg.extra_cards) {
 		let cards = arg.extra_cards;
 		for (let i = 0; i < cards.length; i++) {
-			showExtraCard({
+			ShowExtraCard({
 				id: i,
 				role: cards[i]
 			});
@@ -285,7 +286,8 @@ $client.bind(net.EndGame, arg => {
 	let button_area = $('#button-area');
 	let return_button = $('<button type="button">RETURN</button>');
 	return_button.click(() => {
-		LoadPage('connect');
+		$client.request(net.EnterRoom);
+		LoadPage('enter-lobby');
 	});
 	button_area.html('');
 	button_area.append(return_button);

@@ -127,12 +127,16 @@ DeclareModule('page/create-room', () => {
 
 	var button_area = $('<div></div>');
 	button_area.addClass('button-area');
+
+	let return_button = $('<button type="button">RETURN</button>');
+	return_button.click(() => {
+		LoadPage('enter-lobby');
+	});
+	button_area.append(return_button);
+
 	var create_button = $('<button></button>');
 	create_button.attr('type', 'button');
 	create_button.html('CREATE');
-	button_area.append(create_button);
-	root.append(button_area);
-
 	create_button.click(()=>{
 		var selected_roles = [];
 		$('ul.role-selector li.selected').each(function(){
@@ -147,4 +151,7 @@ DeclareModule('page/create-room', () => {
 		$room.roles = selected_roles;
 		$client.request(net.RequestRoomId);
 	});
+	button_area.append(create_button);
+
+	root.append(button_area);
 });

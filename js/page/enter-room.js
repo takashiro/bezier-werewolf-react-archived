@@ -38,14 +38,23 @@ DeclareModule('page/enter-room', ()=>{
 	root.append(online_box);
 
 	var button_area = $('<div id="button-area" class="button-area"></div>');
-	if ($room.owner.id == $user.id) {
-		var start_button = $('<button type="button">START</button>');
-		button_area.append(start_button);
 
-		start_button.click(()=>{
-			$client.request(net.StartGame);
-		});
+	let return_button = $('<button type="button">RETURN</button>');
+	button_area.append(return_button);
+	return_button.click(() => {
+		$client.request(net.EnterRoom);
+		LoadPage('enter-lobby');
+	});
+
+	var start_button = $('<button class="owner-button" type="button">START</button>');
+	if ($room.owner.id != $user.id) {
+		start_button.hide();
 	}
+	start_button.click(()=>{
+		$client.request(net.StartGame);
+	});
+	button_area.append(start_button);
+
 	root.append(button_area);
 
 	window.addPlayer = (player)=>{
