@@ -1,5 +1,5 @@
 
-const net = declareCommands(
+const net = DeclareCommand(
 	'UpdatePlayer',
 	'DeliverRoleCard',
 	'UpdatePhase',
@@ -13,7 +13,7 @@ const net = declareCommands(
 	'MaxLimit'
 );
 
-const PlayerRole = enums([
+const PlayerRole = DeclareEnum(
 	'Unknown',
 
 	'Doppelganger',
@@ -30,7 +30,7 @@ const PlayerRole = enums([
 	'Tanner',
 
 	'MaxLimit'
-]);
+);
 
 (()=>{
 	var num2str = {};

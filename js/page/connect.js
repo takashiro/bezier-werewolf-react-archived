@@ -2,25 +2,25 @@
 (()=>{
 	let connected = false;
 
-	server.on('open', ()=>{
+	$client.on('open', ()=>{
 		connected = true;
-		if (!config.user.id) {
-			server.request(net.RequestUserId);
+		if (!$config.user.id) {
+			$client.request(net.RequestUserId);
 		} else {
 			EnterRoom();
 		}
 	});
 
-	server.on('close', ()=>{
+	$client.on('close', ()=>{
 		if (!connected) {
-			showMessage('Failed to establish a connection to ' + server.url);
+			ShowMessage('Failed to establish a connection to ' + $client.url);
 		} else {
-			showMessage('Connection lost.');
+			ShowMessage('Connection lost.');
 		}
 	});
 })();
 
-$_MODULE['page/connect'] = ()=>{
+DeclareModule('page/connect', () => {
 	let root = $('#root');
 	root.html('');
 
@@ -46,18 +46,18 @@ $_MODULE['page/connect'] = ()=>{
 
 	let connect_server = ()=>{
 		message_box.html('Connecting...');
-		if (server.connected) {
+		if ($client.connected) {
 			EnterRoom();
 		} else {
 			if ($_GET['server']) {
-				server.connect($_GET['server']);
+				$client.connect($_GET['server']);
 			} else {
 				let match = location.href.match(/^(\w+)\:\/\/(.*?)(?:\/.*)?$/i);
 				if (match) {
 					if (match[1] == 'file') {
-						server.connect('localhost');
+						$client.connect('localhost');
 					} else {
-						server.connect(match[2]);
+						$client.connect(match[2]);
 					}
 				}
 			}
@@ -67,7 +67,7 @@ $_MODULE['page/connect'] = ()=>{
 	join_button.click(()=>{
 		var room_id = parseInt(room_input.val(), 10);
 		if (isNaN(room_id)) {
-			makeToast('It is not a number...');
+			MakeToast('It is not a number...');
 			room_input.val('');
 			room_input.focus();
 			return;
@@ -81,4 +81,4 @@ $_MODULE['page/connect'] = ()=>{
 		$_GET['room_id'] = 0;
 		connect_server();
 	});
-};
+});

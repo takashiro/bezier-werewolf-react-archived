@@ -1,110 +1,110 @@
 
-const server = new Server;
+const $client = new Client;
 
-function requestUpdateName(receiver){
+function RequestUpdateName(receiver){
 	var arg = {
 		info: {
-			name: config.user.name
+			name: $config.user.name
 		}
 	};
 	if (typeof receiver != 'undefined') {
 		arg.receiver = receiver;
 	}
-	server.request(net.UpdatePlayer, arg);
+	$client.request(net.UpdatePlayer, arg);
 }
 
-server.bind(net.RequestUserId, user_id => {
-	config.user.id = user_id;
-	server.request(net.Login, {
+$client.bind(net.RequestUserId, user_id => {
+	$config.user.id = user_id;
+	$client.request(net.Login, {
 		uid: user_id
 	});
 
-	window.localStorage.setItem('nickname', config.user.name);
+	window.localStorage.setItem('nickname', $config.user.name);
 });
 
 function EnterRoom(){
 	if (!$_GET['room_id']) {
-		loadscript('page/create-room');
+		LoadScript('page/create-room');
 	} else {
-		server.request(net.EnterRoom, {
+		$client.request(net.EnterRoom, {
 			id: parseInt($_GET['room_id'], 10),
 			game: 'onenightwerewolf'
 		});
 	}
 }
 
-server.bind(net.Login, uid => {
-	config.user.id = uid;
+$client.bind(net.Login, uid => {
+	$config.user.id = uid;
 	if (uid > 0) {
 		EnterRoom();
 	} else {
-		makeToast('Login failed.');
+		MakeToast('Login failed.');
 	}
 });
 
-server.bind(net.RequestRoomId, room_id => {
+$client.bind(net.RequestRoomId, room_id => {
 	if (room_id > 0) {
-		config.room.id = room_id;
-		server.request(net.CreateRoom, {
+		$config.room.id = room_id;
+		$client.request(net.CreateRoom, {
 			id: room_id,
 			game: 'onenightwerewolf'
 		});
 	} else {
-		makeToast('Failed to create a new room. Server is too busy.');
+		MakeToast('Failed to create a new room. Server is too busy.');
 	}
 });
 
-server.bind(net.CreateRoom, room_id => {
+$client.bind(net.CreateRoom, room_id => {
 	if (room_id > 0) {
-		config.room.id = room_id;
+		$config.room.id = room_id;
 	} else {
-		makeToast('Failed to create a new room.');
+		MakeToast('Failed to create a new room.');
 	}
 });
 
-server.bind(net.SetUserList, players => {
-	config.room.players = [];
+$client.bind(net.SetUserList, players => {
+	$config.room.players = [];
 	for(let uid of players){
-		config.room.players.push({
+		$config.room.players.push({
 			id: uid
 		});
 	}
-	requestUpdateName();
+	RequestUpdateName();
 });
 
 function requestUpdateRoom(){
 	let roles = [];
-	config.room.roles.forEach(str => {
+	$config.room.roles.forEach(str => {
 		roles.push(PlayerRole.convertToNum(str));
 	});
 
-	server.request(net.UpdateRoom, {
+	$client.request(net.UpdateRoom, {
 		roles: roles
 	});
 }
 
-server.bind(net.EnterRoom, info => {
+$client.bind(net.EnterRoom, info => {
 	if (info) {
-		config.room.id = info['room_id'];
-		config.room.owner.id = info['owner_id'];
+		$config.room.id = info['room_id'];
+		$config.room.owner.id = info['owner_id'];
 
-		if (config.room.id > 0) {
-			loadscript('page/enter-room');
-			if (config.room.owner.id == config.user.id) {
+		if ($config.room.id > 0) {
+			LoadScript('page/enter-room');
+			if ($config.room.owner.id == $config.user.id) {
 				requestUpdateRoom();
 			}
 		}
 	} else {
-		showMessage('');
-		makeToast('The room doesn\'t exist.');
+		ShowMessage('');
+		MakeToast('The room doesn\'t exist.');
 	}
 });
 
-server.bind(net.UpdateRoom, args => {
+$client.bind(net.UpdateRoom, args => {
 	if (args.roles instanceof Array) {
-		config.room.roles = [];
+		$config.room.roles = [];
 		args.roles.forEach((num)=>{
-			config.room.roles.push(PlayerRole.convertToString(num));
+			$config.room.roles.push(PlayerRole.convertToString(num));
 		});
 
 		if(typeof updateRoles == 'function'){
@@ -113,23 +113,23 @@ server.bind(net.UpdateRoom, args => {
 	}
 });
 
-server.bind(net.AddUser, uid => {
-	if(!config.room.players.some((player)=>{player.id == uid})){
+$client.bind(net.AddUser, uid => {
+	if(!$config.room.players.some((player)=>{player.id == uid})){
 		let player = {
 			id: uid
 		};
-		config.room.players.push(player);
-		requestUpdateName(uid);
+		$config.room.players.push(player);
+		RequestUpdateName(uid);
 		if(typeof addPlayer == 'function'){
 			addPlayer(player);
 		}
 	}
 });
 
-server.bind(net.RemoveUser, uid => {
-	for (let i = 0; i < config.room.players.length; i++) {
-		if(uid == config.room.players[i].id){
-			config.room.players.splice(i, 1);
+$client.bind(net.RemoveUser, uid => {
+	for (let i = 0; i < $config.room.players.length; i++) {
+		if(uid == $config.room.players[i].id){
+			$config.room.players.splice(i, 1);
 			if(typeof removePlayer == 'function'){
 				removePlayer(uid);
 			}
@@ -138,7 +138,7 @@ server.bind(net.RemoveUser, uid => {
 	}
 });
 
-server.bind(net.UpdatePlayer, info => {
+$client.bind(net.UpdatePlayer, info => {
 	var users = $('ul#player-list li');
 	users.each(function(){
 		var user = $(this);
@@ -154,7 +154,7 @@ server.bind(net.UpdatePlayer, info => {
 		return false;
 	});
 
-	config.room.players.forEach(player => {
+	$config.room.players.forEach(player => {
 		if(player.id == info.id){
 			for (let prop in info){
 				player[prop] = info[prop];
@@ -163,19 +163,19 @@ server.bind(net.UpdatePlayer, info => {
 	});
 });
 
-server.bind(net.StartGame, ()=>{
-	loadscript('page/start-game');
+$client.bind(net.StartGame, ()=>{
+	LoadScript('page/start-game');
 });
 
-server.bind(net.DeliverRoleCard, role => {
+$client.bind(net.DeliverRoleCard, role => {
 	role = PlayerRole.convertToString(role);
-	config.user.role = role;
+	$config.user.role = role;
 	if(typeof updateRole == 'function'){
 		updateRole();
 	}
 });
 
-server.bind(net.UpdatePhase, role => {
+$client.bind(net.UpdatePhase, role => {
 	var role_box = $('#current-role');
 	if(role > 0){
 		role = PlayerRole.convertToString(role);
@@ -190,7 +190,7 @@ server.bind(net.UpdatePhase, role => {
 
 		let game_over_button = $('<button type="button">GAME OVER</button>');
 		game_over_button.click(() => {
-			server.request(net.EndGame);
+			$client.request(net.EndGame);
 		});
 		button_area.append(game_over_button);
 	}
@@ -217,13 +217,13 @@ function enableSelection(list, max_num){
 	});
 }
 
-server.bind(net.ChoosePlayer, num => {
+$client.bind(net.ChoosePlayer, num => {
 	var s = num > 1 ? 's' : '';
 	$('#prompt-box').html(`Please select ${num} player${s}`);
 	enableSelection($('#player-list'), num);
 });
 
-server.bind(net.ChoosePlayerOrCard, limit => {
+$client.bind(net.ChoosePlayerOrCard, limit => {
 	var s1 = limit.player > 1 ? 's' : '';
 	var s2 = limit.card > 1 ? 's' : '';
 	$('#prompt-box').html(`Please select ${limit.player} player${s1} or ${limit.card} card${s2}`);
@@ -238,14 +238,14 @@ server.bind(net.ChoosePlayerOrCard, limit => {
 	});
 });
 
-server.bind(net.ChooseCard, num => {
+$client.bind(net.ChooseCard, num => {
 	var s = num > 1 ? 's' : '';
 	$('#prompt-box').html(`Please select ${num} unused card${s}`);
 	enableSelection($('#extra-card-list'), num);
 });
 
 function showPlayerRole(info){
-	var player = config.room.findPlayer(info.uid);
+	var player = $config.room.findPlayer(info.uid);
 	if(player == null){
 		return;
 	}
@@ -263,7 +263,7 @@ function showPlayerRole(info){
 	});
 }
 
-server.bind(net.ShowPlayerRole, showPlayerRole);
+$client.bind(net.ShowPlayerRole, showPlayerRole);
 
 function showExtraCard(info){
 	var extra_card_list = $('ul#extra-card-list > li');
@@ -276,9 +276,9 @@ function showExtraCard(info){
 	}
 }
 
-server.bind(net.ShowExtraCard, showExtraCard);
+$client.bind(net.ShowExtraCard, showExtraCard);
 
-server.bind(net.EndGame, arg => {
+$client.bind(net.EndGame, arg => {
 	if (arg.players) {
 		let players = Array.apply(null, arg.players);
 		players.forEach(showPlayerRole);
@@ -296,7 +296,7 @@ server.bind(net.EndGame, arg => {
 	let button_area = $('#button-area');
 	let return_button = $('<button type="button">RETURN</button>');
 	return_button.click(() => {
-		loadscript('page/connect');
+		LoadScript('page/connect');
 	});
 	button_area.html('');
 	button_area.append(return_button);

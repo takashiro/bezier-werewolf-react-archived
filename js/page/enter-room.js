@@ -1,11 +1,11 @@
 
-$_MODULE['page/enter-room'] = ()=>{
+DeclareModule('page/enter-room', ()=>{
 	var root = $('#root');
 	root.html('');
 
 	var room_box = $('<div class="box"><h3>Room ID</h3></div>');
 	var room_id = $('<span id="room-id"></span>');
-	room_id.html(config.room.id);
+	room_id.html($config.room.id);
 	room_box.append(room_id);
 	root.append(room_box);
 
@@ -16,7 +16,7 @@ $_MODULE['page/enter-room'] = ()=>{
 
 	window.updateRoles = ()=>{
 		role_list.html('');
-		config.room.roles.forEach((role)=>{
+		$config.room.roles.forEach((role)=>{
 			var li = $(`<li><div class="role ${role}"></div></li>`);
 			role_list.append(li);
 		});
@@ -38,12 +38,12 @@ $_MODULE['page/enter-room'] = ()=>{
 	root.append(online_box);
 
 	var button_area = $('<div id="button-area" class="button-area"></div>');
-	if (config.room.owner.id == config.user.id) {
+	if ($config.room.owner.id == $config.user.id) {
 		var start_button = $('<button type="button">START</button>');
 		button_area.append(start_button);
 
 		start_button.click(()=>{
-			server.request(net.StartGame);
+			$client.request(net.StartGame);
 		});
 	}
 	root.append(button_area);
@@ -65,8 +65,8 @@ $_MODULE['page/enter-room'] = ()=>{
 
 		online_list.append(li);
 	}
-	config.room.players.push(config.user);
-	config.room.players.forEach(addPlayer);
+	$config.room.players.push($config.user);
+	$config.room.players.forEach(addPlayer);
 
 	window.removePlayer = (uid)=>{
 		online_list.children().each(function(){
@@ -78,7 +78,7 @@ $_MODULE['page/enter-room'] = ()=>{
 			return true;
 		});
 
-		let players = config.room.players;
+		let players = $config.room.players;
 		for(let i = 0; i < players.length; i++){
 			let player = players[i];
 			if(player.id == uid){
@@ -87,4 +87,4 @@ $_MODULE['page/enter-room'] = ()=>{
 			}
 		}
 	}
-};
+});

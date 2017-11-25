@@ -1,5 +1,5 @@
 
-$_MODULE['page/start-game'] = ()=>{
+DeclareModule('page/start-game', () => {
 	let root = $('#root');
 
 	let role_box = $('#role-box');
@@ -10,7 +10,7 @@ $_MODULE['page/start-game'] = ()=>{
 	window.updateRole = ()=>{
 		user_role.html('');
 		var role_card = $('<div class="role"></div>');
-		role_card.addClass(config.user.role);
+		role_card.addClass($config.user.role);
 		user_role.append(role_card);
 	};
 
@@ -56,17 +56,17 @@ $_MODULE['page/start-game'] = ()=>{
 		}
 
 		if(mode == 1){
-			server.request(net.ChooseCard, cards);
+			$client.request(net.ChooseCard, cards);
 		}else if(mode == 2){
-			server.request(net.ChoosePlayer, players);
+			$client.request(net.ChoosePlayer, players);
 		}else if(mode == 3){
 			if(cards.length > 0){
-				server.request(net.ChoosePlayerOrCard, {
+				$client.request(net.ChoosePlayerOrCard, {
 					type: 'card',
 					targets: cards
 				});
 			}else{
-				server.request(net.ChoosePlayerOrCard, {
+				$client.request(net.ChoosePlayerOrCard, {
 					type: 'player',
 					targets: players
 				});
@@ -84,4 +84,4 @@ $_MODULE['page/start-game'] = ()=>{
 	var answer_box = $('<ul id="answer-box" class="message-box"></ul>');
 	infomation_box.append(answer_box);
 	root.append(infomation_box);
-};
+});

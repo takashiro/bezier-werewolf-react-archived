@@ -1,5 +1,5 @@
 
-$_MODULE['page/login'] = ()=>{
+DeclareModule('page/login', () => {
 	let root = $('#root');
 	root.html('');
 
@@ -20,13 +20,13 @@ $_MODULE['page/login'] = ()=>{
 	login_button.click(()=>{
 		let nickname = name_input.val();
 		if (nickname.length <= 0) {
-			makeToast('Please fill in your nickname.');
+			MakeToast('Please fill in your nickname.');
 			name_input.focus();
 			return;
 		}
 
 		nickname = nickname.substr(0, 15);
-		config.user.name = nickname;
-		loadscript('page/connect');
+		$config.user.name = nickname;
+		LoadScript('page/connect');
 	});
-};
+});

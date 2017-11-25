@@ -1,5 +1,5 @@
 
-const config = {
+const $config = {
 	room: new Room,
 	user: {
 		id: 0,
@@ -7,11 +7,11 @@ const config = {
 	}
 };
 
-function showMessage(message){
+function ShowMessage(message){
 	$('#message-box').html(message);
 }
 
 $(()=>{
-	showMessage('Loading dialogs...');
-	loadscript('page/login');
+	ShowMessage('Loading dialogs...');
+	LoadScript('page/login');
 });

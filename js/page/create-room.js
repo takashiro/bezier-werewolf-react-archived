@@ -1,5 +1,5 @@
 
-$_MODULE['page/create-room'] = ()=>{
+DeclareModule('page/create-room', () => {
 	var root = $('#root');
 	root.html('');
 
@@ -114,11 +114,11 @@ $_MODULE['page/create-room'] = ()=>{
 		});
 
 		if (selected_roles.length < 4) {
-			makeToast('Please select at least 4 roles.');
+			MakeToast('Please select at least 4 roles.');
 			return;
 		}
 
-		config.room.roles = selected_roles;
-		server.request(net.RequestRoomId);
+		$config.room.roles = selected_roles;
+		$client.request(net.RequestRoomId);
 	});
-};
+});
