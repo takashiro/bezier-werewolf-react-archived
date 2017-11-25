@@ -100,6 +100,18 @@ $client.bind(net.UpdateRoom, args => {
 			updateRoles();
 		}
 	}
+
+	if (args.owner_id) {
+		let owner_id = parseInt(args.owner_id, 10);
+		if (!isNaN(owner_id) && owner_id > 0) {
+			$room.owner.id = owner_id;
+			if (owner_id == $user.id) {
+				$('.button-area .owner-button').show();
+			} else {
+				$('.button-area .owner-button').hide();
+			}
+		}
+	}
 });
 
 $client.bind(net.AddUser, uid => {
