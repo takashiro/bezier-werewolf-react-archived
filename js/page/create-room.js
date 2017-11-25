@@ -118,7 +118,7 @@ DeclareModule('page/create-room', () => {
 			return;
 		}
 
-		$config.room.roles = selected_roles;
+		$room.roles = selected_roles;
 		$client.request(net.RequestRoomId);
 	});
 });

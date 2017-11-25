@@ -31,7 +31,7 @@ DeclareModule('page/join-room', () => {
 			return;
 		}
 
-		$config.user.name = nickname;
+		$user.name = nickname;
 		$client.request(net.RequestUserId);
 	});
 });

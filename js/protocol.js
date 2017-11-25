@@ -4,7 +4,7 @@ const $client = new Client;
 function RequestUpdateName(receiver){
 	var arg = {
 		info: {
-			name: $config.user.name
+			name: $user.name
 		}
 	};
 	if (typeof receiver != 'undefined') {
@@ -14,12 +14,12 @@ function RequestUpdateName(receiver){
 }
 
 $client.bind(net.RequestUserId, user_id => {
-	$config.user.id = user_id;
+	$user.id = user_id;
 	$client.request(net.Login, {
 		uid: user_id
 	});
 
-	window.localStorage.setItem('nickname', $config.user.name);
+	window.localStorage.setItem('nickname', $user.name);
 });
 
 function EnterRoom(){
@@ -34,7 +34,7 @@ function EnterRoom(){
 }
 
 $client.bind(net.Login, uid => {
-	$config.user.id = uid;
+	$user.id = uid;
 	if (uid > 0) {
 		EnterRoom();
 	} else {
@@ -44,7 +44,7 @@ $client.bind(net.Login, uid => {
 
 $client.bind(net.RequestRoomId, room_id => {
 	if (room_id > 0) {
-		$config.room.id = room_id;
+		$room.id = room_id;
 		$client.request(net.CreateRoom, {
 			id: room_id,
 			game: 'onenightwerewolf'
@@ -56,16 +56,16 @@ $client.bind(net.RequestRoomId, room_id => {
 
 $client.bind(net.CreateRoom, room_id => {
 	if (room_id > 0) {
-		$config.room.id = room_id;
+		$room.id = room_id;
 	} else {
 		MakeToast('Failed to create a new room.');
 	}
 });
 
 $client.bind(net.SetUserList, players => {
-	$config.room.players = [];
+	$room.players = [];
 	for(let uid of players){
-		$config.room.players.push({
+		$room.players.push({
 			id: uid
 		});
 	}
@@ -74,7 +74,7 @@ $client.bind(net.SetUserList, players => {
 
 function requestUpdateRoom(){
 	let roles = [];
-	$config.room.roles.forEach(str => {
+	$room.roles.forEach(str => {
 		roles.push(PlayerRole.convertToNum(str));
 	});
 
@@ -85,12 +85,12 @@ function requestUpdateRoom(){
 
 $client.bind(net.EnterRoom, info => {
 	if (info) {
-		$config.room.id = info['room_id'];
-		$config.room.owner.id = info['owner_id'];
+		$room.id = info['room_id'];
+		$room.owner.id = info['owner_id'];
 
-		if ($config.room.id > 0) {
+		if ($room.id > 0) {
 			LoadScript('page/enter-room');
-			if ($config.room.owner.id == $config.user.id) {
+			if ($room.owner.id == $user.id) {
 				requestUpdateRoom();
 			}
 		}
@@ -102,9 +102,9 @@ $client.bind(net.EnterRoom, info => {
 
 $client.bind(net.UpdateRoom, args => {
 	if (args.roles instanceof Array) {
-		$config.room.roles = [];
+		$room.roles = [];
 		args.roles.forEach((num)=>{
-			$config.room.roles.push(PlayerRole.convertToString(num));
+			$room.roles.push(PlayerRole.convertToString(num));
 		});
 
 		if(typeof updateRoles == 'function'){
@@ -114,11 +114,11 @@ $client.bind(net.UpdateRoom, args => {
 });
 
 $client.bind(net.AddUser, uid => {
-	if(!$config.room.players.some((player)=>{player.id == uid})){
+	if(!$room.players.some((player)=>{player.id == uid})){
 		let player = {
 			id: uid
 		};
-		$config.room.players.push(player);
+		$room.players.push(player);
 		RequestUpdateName(uid);
 		if(typeof addPlayer == 'function'){
 			addPlayer(player);
@@ -127,9 +127,9 @@ $client.bind(net.AddUser, uid => {
 });
 
 $client.bind(net.RemoveUser, uid => {
-	for (let i = 0; i < $config.room.players.length; i++) {
-		if(uid == $config.room.players[i].id){
-			$config.room.players.splice(i, 1);
+	for (let i = 0; i < $room.players.length; i++) {
+		if(uid == $room.players[i].id){
+			$room.players.splice(i, 1);
 			if(typeof removePlayer == 'function'){
 				removePlayer(uid);
 			}
@@ -154,7 +154,7 @@ $client.bind(net.UpdatePlayer, info => {
 		return false;
 	});
 
-	$config.room.players.forEach(player => {
+	$room.players.forEach(player => {
 		if(player.id == info.id){
 			for (let prop in info){
 				player[prop] = info[prop];
@@ -169,7 +169,7 @@ $client.bind(net.StartGame, ()=>{
 
 $client.bind(net.DeliverRoleCard, role => {
 	role = PlayerRole.convertToString(role);
-	$config.user.role = role;
+	$user.role = role;
 	if(typeof updateRole == 'function'){
 		updateRole();
 	}
@@ -245,7 +245,7 @@ $client.bind(net.ChooseCard, num => {
 });
 
 function showPlayerRole(info){
-	var player = $config.room.findPlayer(info.uid);
+	var player = $room.findPlayer(info.uid);
 	if(player == null){
 		return;
 	}

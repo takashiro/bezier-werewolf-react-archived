@@ -5,7 +5,7 @@ DeclareModule('page/enter-room', ()=>{
 
 	var room_box = $('<div class="box"><h3>Room ID</h3></div>');
 	var room_id = $('<span id="room-id"></span>');
-	room_id.html($config.room.id);
+	room_id.html($room.id);
 	room_box.append(room_id);
 	root.append(room_box);
 
@@ -16,7 +16,7 @@ DeclareModule('page/enter-room', ()=>{
 
 	window.updateRoles = ()=>{
 		role_list.html('');
-		$config.room.roles.forEach((role)=>{
+		$room.roles.forEach((role)=>{
 			var li = $(`<li><div class="role ${role}"></div></li>`);
 			role_list.append(li);
 		});
@@ -38,7 +38,7 @@ DeclareModule('page/enter-room', ()=>{
 	root.append(online_box);
 
 	var button_area = $('<div id="button-area" class="button-area"></div>');
-	if ($config.room.owner.id == $config.user.id) {
+	if ($room.owner.id == $user.id) {
 		var start_button = $('<button type="button">START</button>');
 		button_area.append(start_button);
 
@@ -65,8 +65,8 @@ DeclareModule('page/enter-room', ()=>{
 
 		online_list.append(li);
 	}
-	$config.room.players.push($config.user);
-	$config.room.players.forEach(addPlayer);
+	$room.players.push($user);
+	$room.players.forEach(addPlayer);
 
 	window.removePlayer = (uid)=>{
 		online_list.children().each(function(){
@@ -78,7 +78,7 @@ DeclareModule('page/enter-room', ()=>{
 			return true;
 		});
 
-		let players = $config.room.players;
+		let players = $room.players;
 		for(let i = 0; i < players.length; i++){
 			let player = players[i];
 			if(player.id == uid){

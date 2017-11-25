@@ -10,7 +10,7 @@ DeclareModule('page/start-game', () => {
 	window.updateRole = ()=>{
 		user_role.html('');
 		var role_card = $('<div class="role"></div>');
-		role_card.addClass($config.user.role);
+		role_card.addClass($user.role);
 		user_role.append(role_card);
 	};
 

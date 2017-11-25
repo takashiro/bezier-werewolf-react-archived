@@ -26,7 +26,7 @@ DeclareModule('page/login', () => {
 		}
 
 		nickname = nickname.substr(0, 15);
-		$config.user.name = nickname;
+		$user.name = nickname;
 		LoadScript('page/connect');
 	});
 });

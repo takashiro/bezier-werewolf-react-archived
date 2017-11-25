@@ -1,10 +1,9 @@
 
-const $config = {
-	room: new Room,
-	user: {
-		id: 0,
-		name: ''
-	}
+const $room = new Room;
+
+const $user = {
+	id: 0,
+	name: ''
 };
 
 function ShowMessage(message){

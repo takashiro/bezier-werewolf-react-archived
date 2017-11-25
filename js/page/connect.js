@@ -4,7 +4,7 @@
 
 	$client.on('open', ()=>{
 		connected = true;
-		if (!$config.user.id) {
+		if (!$user.id) {
 			$client.request(net.RequestUserId);
 		} else {
 			EnterRoom();
