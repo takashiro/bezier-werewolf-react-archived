@@ -22,21 +22,10 @@ $client.bind(net.RequestUserId, user_id => {
 	window.localStorage.setItem('nickname', $user.name);
 });
 
-function EnterRoom(){
-	if (!$_GET['room_id']) {
-		LoadScript('page/create-room');
-	} else {
-		$client.request(net.EnterRoom, {
-			id: parseInt($_GET['room_id'], 10),
-			game: 'onenightwerewolf'
-		});
-	}
-}
-
 $client.bind(net.Login, uid => {
 	$user.id = uid;
 	if (uid > 0) {
-		EnterRoom();
+		LoadPage('enter-lobby');
 	} else {
 		MakeToast('Login failed.');
 	}
@@ -89,7 +78,7 @@ $client.bind(net.EnterRoom, info => {
 		$room.owner.id = info['owner_id'];
 
 		if ($room.id > 0) {
-			LoadScript('page/enter-room');
+			LoadPage('enter-room');
 			if ($room.owner.id == $user.id) {
 				requestUpdateRoom();
 			}
@@ -164,7 +153,7 @@ $client.bind(net.UpdatePlayer, info => {
 });
 
 $client.bind(net.StartGame, ()=>{
-	LoadScript('page/start-game');
+	LoadPage('start-game');
 });
 
 $client.bind(net.DeliverRoleCard, role => {
@@ -296,7 +285,7 @@ $client.bind(net.EndGame, arg => {
 	let button_area = $('#button-area');
 	let return_button = $('<button type="button">RETURN</button>');
 	return_button.click(() => {
-		LoadScript('page/connect');
+		LoadPage('connect');
 	});
 	button_area.html('');
 	button_area.append(return_button);

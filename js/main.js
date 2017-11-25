@@ -10,7 +10,13 @@ function ShowMessage(message){
 	$('#message-box').html(message);
 }
 
+function LoadPage(page){
+	LoadScript('page/' + page, () => {
+		ShowMessage('');
+	});
+}
+
 $(()=>{
 	ShowMessage('Loading dialogs...');
-	LoadScript('page/login');
+	LoadPage('login');
 });

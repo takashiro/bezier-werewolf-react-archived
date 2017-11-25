@@ -1,4 +1,47 @@
 
+(()=>{
+	let connected = false;
+
+	$client.on('open', ()=>{
+		connected = true;
+		if (!$user.id) {
+			$client.request(net.RequestUserId);
+		} else {
+			$client.request(net.Login, {
+				uid: $user.id
+			});
+		}
+	});
+
+	$client.on('close', ()=>{
+		if (!connected) {
+			ShowMessage('Failed to establish a connection to ' + $client.url);
+		} else {
+			ShowMessage('Connection lost.');
+		}
+	});
+})();
+
+function ConnectServer(){
+	ShowMessage('Connecting...');
+	if ($client.connected) {
+		LoadPage('enter-lobby');
+	} else {
+		if ($_GET['server']) {
+			$client.connect($_GET['server']);
+		} else {
+			let match = location.href.match(/^(\w+)\:\/\/(.*?)(?:\/.*)?$/i);
+			if (match) {
+				if (match[1] == 'file') {
+					$client.connect('localhost');
+				} else {
+					$client.connect(match[2]);
+				}
+			}
+		}
+	}
+};
+
 DeclareModule('page/login', () => {
 	let root = $('#root');
 	root.html('');
@@ -27,6 +70,6 @@ DeclareModule('page/login', () => {
 
 		nickname = nickname.substr(0, 15);
 		$user.name = nickname;
-		LoadScript('page/connect');
+		ConnectServer();
 	});
 });
