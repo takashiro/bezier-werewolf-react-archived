@@ -34,6 +34,8 @@ DeclareModule('page/connect', () => {
 
 	root.append(create_dialog);
 
+	root.append('<div class="space-line"></div>');
+
 	let join_dialog = $('<div class="form-dialog"></div>');
 
 	let room_input = $('<input type="text" placeholder="Room ID"></input>');

@@ -261,3 +261,7 @@ ul.player-list li.selected{
 	margin: 5px 10px;
 	text-align: center;
 }
+
+.space-line{
+	height: 20px;
+}
