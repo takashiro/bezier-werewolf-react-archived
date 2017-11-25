@@ -27,7 +27,9 @@ DeclareModule('page/create-room', () => {
 
 	var minion_selector = $('<ul></ul>');
 	minion_selector.addClass('role-selector');
-	add_role(minion_selector, 'minion');
+	for (let i = 0; i < 2; i++) {
+		add_role(minion_selector, 'minion');
+	}
 	team_werewolf.append(minion_selector);
 
 	root.append(team_werewolf);
@@ -74,6 +76,18 @@ DeclareModule('page/create-room', () => {
 
 	var select_first_n = function () {
 		var li = $(this);
+
+		if (li.hasClass('selected')) {
+			let prev = li.prev();
+			if (prev.length > 0) {
+				let next = li.next();
+				if (next.length == 0 || !next.hasClass('selected')) {
+					li.removeClass('selected');
+					return;
+				}
+			}
+		}
+
 		li.addClass('selected');
 
 		let prev = li.prev();
