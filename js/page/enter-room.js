@@ -3,7 +3,7 @@ DeclareModule('page/enter-room', ()=>{
 	var root = $('#root');
 	root.html('');
 
-	var room_box = $('<div class="inline-message"></div>');
+	var room_box = $('<div id="room-box" class="inline-message"></div>');
 	room_box.html(`Invite your friends into Room No.<span id="room-id">${$room.id}</span>!`);
 	root.append(room_box);
 

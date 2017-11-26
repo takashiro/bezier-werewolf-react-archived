@@ -2,14 +2,22 @@
 DeclareModule('page/start-game', () => {
 	let root = $('#root');
 
+	let room_box = $('#room-box');
+	room_box[0].className = 'box';
+	room_box.html('Room No.' + $room.id);
+
 	let role_box = $('#role-box');
 	role_box.html('<h3>Your Role</h3>');
-	var user_role = $('<div></div>');
+	var user_role = $('<div id="my-role"></div>');
+	user_role.on('updated', () => {
+		if ($user.role) {
+			user_role.html(PlayerRole.createImage($user.role));
+		} else {
+			user_role.html('<div class="role background"></div>');
+		}
+	});
+	user_role.trigger('updated');
 	role_box.append(user_role);
-
-	window.updateRole = () => {
-		user_role.html(PlayerRole.createImage($user.role));
-	};
 
 	let extra_card_box = $('#extra-card-box');
 	extra_card_box.show();
@@ -71,14 +79,11 @@ DeclareModule('page/start-game', () => {
 		}
 	});
 
-	var infomation_box = $('<div class="infomation-box"></div>');
-	var current_role = $('<div class="box current-role"><h3>Current Phase</h3></div>');
+	var infomation_box = $('<div class="box infomation-box"><h3>Current Phase</h3></div>');
 	var role_content = $('<span id="current-role"></span>');
-	current_role.append(role_content);
-	infomation_box.append(current_role);
+	infomation_box.append(role_content);
 	var prompt_box = $('<div id="prompt-box" class="message-box"></div>');
+	prompt_box.html('Darkness falls... Watch out when there\'s a full moon...');
 	infomation_box.append(prompt_box);
-	var answer_box = $('<ul id="answer-box" class="message-box"></ul>');
-	infomation_box.append(answer_box);
 	root.append(infomation_box);
 });

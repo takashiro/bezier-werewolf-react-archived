@@ -172,9 +172,7 @@ $client.bind(net.StartGame, ()=>{
 $client.bind(net.DeliverRoleCard, role => {
 	role = PlayerRole.convertToString(role);
 	$user.role = role;
-	if(typeof updateRole == 'function'){
-		updateRole();
-	}
+	$('#my-role').trigger('updated');
 });
 
 $client.bind(net.UpdatePhase, role => {

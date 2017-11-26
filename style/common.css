@@ -186,19 +186,20 @@ ul.player-list li.selected{
 	position: relative;
 }
 
-#root > .message{
-	padding: 80px 10px;
-	font-size: 12pt;
-	color: lightgray;
-	text-align: center;
+.infomation-box{
+	color: white;
 }
 
 #root > .infomation-box{
-	color: white;
-	position: absolute;
-	top: 20px;
+	top: 0;
 	right: 20px;
 	width: 48%;
+	position: absolute;
+}
+
+.infomation-box #current-role{
+	float: left;
+	margin-right: 8px;
 }
 
 #room-id{
@@ -208,13 +209,9 @@ ul.player-list li.selected{
 	margin: 0 0.5em;
 }
 
-#root > .infomation-box #current-role{
-	width: 8.5em;
-	display: block;
-}
-
 .message-box{
 	margin: 15px 0;
+	color: lightgray;
 }
 
 .inline-message{
