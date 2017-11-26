@@ -131,11 +131,16 @@ form.toast button,
 .role-selector li{
 	display: inline-block;
 	margin: 5px 7px;
+	opacity: 0.75;
 }
 
 .role-selector li.disabled{
 	filter: grayscale(100%);
 	opacity: 0.5;
+}
+
+.role-selector li.selected{
+	opacity: 1;
 }
 
 .role-selector li.selected div{

@@ -119,7 +119,7 @@ DeclareModule('page/create-room', () => {
 		var role_s = role_num > 1 ? 's' : '';
 		var player_num = Math.max(0, role_num - 3);
 		var player_s = player_num > 1 ? 's' : '';
-		selection_result.text(`${role_num} role${role_s}, ${player_num} player${player_s}`);
+		selection_result.text(`${role_num} role${role_s}, for ${player_num} player${player_s} at most`);
 	});
 
 	var button_area = $('<div></div>');
