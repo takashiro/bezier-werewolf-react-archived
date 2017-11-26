@@ -201,6 +201,13 @@ ul.player-list li.selected{
 	width: 48%;
 }
 
+#room-id{
+	font-weight: bold;
+	text-shadow: skyblue 0 0 3px;
+	font-size: 13pt;
+	margin: 0 0.5em;
+}
+
 #root > .infomation-box #current-role{
 	width: 8.5em;
 	display: block;
