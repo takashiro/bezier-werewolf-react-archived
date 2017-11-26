@@ -4,12 +4,9 @@ DeclareModule('page/create-room', () => {
 	root.html('');
 
 	function add_role(selector, role, selected = false){
-		let div = $('<div></div>');
-		div.addClass('role');
-		div.addClass(role);
 		let li = $('<li></li>');
 		li.data('role', role);
-		li.append(div);
+		li.append(PlayerRole.createImage(role));
 		if (selected) {
 			li.addClass('selected');
 		}

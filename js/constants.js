@@ -43,11 +43,16 @@ const PlayerRole = DeclareEnum(
 		num2str[num] = str;
 	}
 
-	PlayerRole.convertToNum = (str)=>{
+	PlayerRole.convertToNum = str => {
 		return str2num[str];
 	};
 
-	PlayerRole.convertToString = (num)=>{
+	PlayerRole.convertToString = num => {
 		return num2str[num];
 	};
+
+	PlayerRole.createImage = role => {
+		return `<div class="role" style="background-image: url(style/role/${role}.jpg)"></div>`;
+	};
+
 })();

@@ -60,22 +60,18 @@ div.toast{
 	line-height: 1.4em;
 	padding: 0.5em 1em;
 	margin: 10px;
-	width: 6.5em;
+	min-width: 6.5em;
 	overflow: hidden;
 }
 
-.role-preloader{
-	background: url(roles.jpg) no-repeat;
-	width: 1px;
-	height: 1px;
-	display: inline-block;
-}
-
 .role{
-	background: url(roles.jpg) no-repeat;
 	width: 82px;
 	height: 90px;
-	border-radius: 5px;
+	border-radius: 7px;
+	display: inline-block;
+	color: white;
+	background-size: auto 118px;
+	background-position: -1px -1px;
 }
 
 .role.background{
@@ -89,60 +85,12 @@ div.toast{
 	text-align: center;
 }
 
-.role.background:before {
+.role.background::before {
 	content: 'UNKOWN';
 	font-size: 9pt;
 	color: white;
 	line-height: 45px;
 	text-shadow: black 0 0 4px;
-}
-
-.role.doppelganger{
-	background-position: 0 0;
-}
-
-.role.werewolf{
-	background-position: -85px 0;
-}
-
-.role.minion{
-	background-position: -171px 0;
-}
-
-.role.robber{
-	background-position: -255px 0;
-}
-
-.role.mason{
-	background-position: 0 -116px;
-}
-
-.role.seer{
-	background-position: -85px -116px;
-}
-
-.role.troublemaker{
-	background-position: -170px -116px;
-}
-
-.role.drunk{
-	background-position: -255px -116px;
-}
-
-.role.insomniac{
-	background-position: 0 -232px;
-}
-
-.role.hunter{
-	background-position: -85px -232px;
-}
-
-.role.villager{
-	background-position: -170px -232px;
-}
-
-.role.tanner{
-	background-position: -255px -232px;
 }
 
 .box{

@@ -7,11 +7,8 @@ DeclareModule('page/start-game', () => {
 	var user_role = $('<div></div>');
 	role_box.append(user_role);
 
-	window.updateRole = ()=>{
-		user_role.html('');
-		var role_card = $('<div class="role"></div>');
-		role_card.addClass($user.role);
-		user_role.append(role_card);
+	window.updateRole = () => {
+		user_role.html(PlayerRole.createImage($user.role));
 	};
 
 	let extra_card_box = $('#extra-card-box');

@@ -181,10 +181,7 @@ $client.bind(net.UpdatePhase, role => {
 	var role_box = $('#current-role');
 	if(role > 0){
 		role = PlayerRole.convertToString(role);
-		let card = $('<div class="role"></div>');
-		card.addClass(role);
-		role_box.html('');
-		role_box.append(card);
+		role_box.html(PlayerRole.createImage(role));
 	}else{
 		role_box.html('Daytime~~');
 		let button_area = $('#button-area');
@@ -271,10 +268,8 @@ function ShowExtraCard(info){
 	var extra_card_list = $('ul#extra-card-list > li');
 	var li = extra_card_list.eq(info.id);
 	if(li.length > 0){
-		let card = li.children('.role');
 		let role = PlayerRole.convertToString(info.role);
-		card.removeClass('background');
-		card.addClass(role);
+		li.html(PlayerRole.createImage(role));
 	}
 }
 

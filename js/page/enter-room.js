@@ -16,8 +16,9 @@ DeclareModule('page/enter-room', ()=>{
 
 	window.updateRoles = ()=>{
 		role_list.html('');
-		$room.roles.forEach((role)=>{
-			var li = $(`<li><div class="role ${role}"></div></li>`);
+		$room.roles.forEach(role => {
+			let li = $(`<li></li>`);
+			li.append(PlayerRole.createImage(role));
 			role_list.append(li);
 		});
 	};
