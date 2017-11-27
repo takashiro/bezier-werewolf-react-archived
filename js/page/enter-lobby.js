@@ -22,7 +22,7 @@ DeclareModule('page/enter-lobby', () => {
 	join_prompt.html('Or join an existing room');
 	join_dialog.append(join_prompt);
 
-	let room_input = $('<input type="text" placeholder="Room Number"></input>');
+	let room_input = $('<input type="number" placeholder="Room Number"></input>');
 	join_dialog.append(room_input);
 
 	let join_button = $('<button type="button">JOIN</button>');

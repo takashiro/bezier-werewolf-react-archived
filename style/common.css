@@ -58,7 +58,8 @@ button{
 	padding: 10px 15px;
 }
 
-input[type="text"]{
+input[type="text"],
+input[type="number"]{
 	padding: 0.5em 0.8em;
 }
 
@@ -125,14 +126,13 @@ div.toast{
 	margin: 0 0 10px 0;
 }
 
-form.toast,
 .form-dialog{
 	text-align: center;
 	margin: 20px;
 }
 
-form.toast input[type="text"],
-.form-dialog input[type="text"]{
+.form-dialog input[type="text"],
+.form-dialog input[type="number"]{
 	width: 50%;
 	margin: 15px 0;
 	font-size: 16pt;
