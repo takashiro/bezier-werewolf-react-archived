@@ -11,12 +11,10 @@ function ShowMessage(message){
 }
 
 function LoadPage(page){
+	ShowMessage('Loading...');
 	LoadScript('page/' + page, () => {
 		ShowMessage('');
 	});
 }
 
-$(()=>{
-	ShowMessage('Loading dialogs...');
-	LoadPage('login');
-});
+LoadPage('login');
