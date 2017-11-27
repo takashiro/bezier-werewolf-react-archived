@@ -110,7 +110,7 @@ DeclareModule('page/create-room', () => {
 		});
 	});
 
-	mason_selector.on('click', () => {
+	mason_selector.on('click', 'li', () => {
 		mason_selector.children('li').toggleClass('selected');
 	});
 
