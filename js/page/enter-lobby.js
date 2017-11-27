@@ -5,6 +5,10 @@ DeclareModule('page/enter-lobby', () => {
 
 	let create_dialog = $('<div class="form-dialog"></div>');
 
+	let create_prompt = $('<div class="inline-message"></div>');
+	create_prompt.html('Create a new room');
+	create_dialog.append(create_prompt);
+
 	let create_button = $('<button type="button">CREATE</button>');
 	create_dialog.append(create_button);
 
@@ -14,7 +18,11 @@ DeclareModule('page/enter-lobby', () => {
 
 	let join_dialog = $('<div class="form-dialog"></div>');
 
-	let room_input = $('<input type="text" placeholder="Room ID"></input>');
+	let join_prompt = $('<div class="inline-message"></div>');
+	join_prompt.html('Or join an existing room');
+	join_dialog.append(join_prompt);
+
+	let room_input = $('<input type="text" placeholder="Room Number"></input>');
 	join_dialog.append(room_input);
 
 	let join_button = $('<button type="button">JOIN</button>');
