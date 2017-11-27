@@ -96,9 +96,7 @@ $client.bind(net.UpdateRoom, args => {
 			$room.roles.push(PlayerRole.convertToString(num));
 		});
 
-		if(typeof updateRoles == 'function'){
-			updateRoles();
-		}
+		$('.role-list').trigger('update-role');
 	}
 
 	if (args.owner_id) {
@@ -115,15 +113,13 @@ $client.bind(net.UpdateRoom, args => {
 });
 
 $client.bind(net.AddUser, uid => {
-	if(!$room.players.some((player)=>{player.id == uid})){
+	if(!$room.players.some(player => {player.id == uid})){
 		let player = {
 			id: uid
 		};
 		$room.players.push(player);
+		$('.player-list').trigger('add-player', [player]);
 		RequestUpdateName(uid);
-		if(typeof addPlayer == 'function'){
-			addPlayer(player);
-		}
 	}
 });
 
@@ -131,35 +127,19 @@ $client.bind(net.RemoveUser, uid => {
 	for (let i = 0; i < $room.players.length; i++) {
 		if(uid == $room.players[i].id){
 			$room.players.splice(i, 1);
-			if(typeof removePlayer == 'function'){
-				removePlayer(uid);
-			}
+			$('.player-list').trigger('remove-player', [uid]);
 			break;
 		}
 	}
 });
 
 $client.bind(net.UpdatePlayer, info => {
-	var users = $('ul#player-list li');
-	users.each(function(){
-		var user = $(this);
-		if(user.data('uid') != info.id){
-			return true;
-		}
-
-		if(info.name){
-			var nickname = user.children('.nickname');
-			nickname.text(info.name);
-		}
-
-		return false;
-	});
-
 	$room.players.forEach(player => {
 		if(player.id == info.id){
 			for (let prop in info){
 				player[prop] = info[prop];
 			}
+			$('.player-list').trigger('update-player', [info]);
 		}
 	});
 });
@@ -172,7 +152,7 @@ $client.bind(net.StartGame, ()=>{
 $client.bind(net.DeliverRoleCard, role => {
 	role = PlayerRole.convertToString(role);
 	$user.role = role;
-	$('#my-role').trigger('updated');
+	$('#my-role').trigger('update-role');
 });
 
 $client.bind(net.UpdatePhase, role => {

@@ -9,14 +9,14 @@ DeclareModule('page/start-game', () => {
 	let role_box = $('#role-box');
 	role_box.html('<h3>Your Role</h3>');
 	var user_role = $('<div id="my-role"></div>');
-	user_role.on('updated', () => {
+	user_role.on('update-role', () => {
 		if ($user.role) {
 			user_role.html(PlayerRole.createImage($user.role));
 		} else {
 			user_role.html('<div class="role background"></div>');
 		}
 	});
-	user_role.trigger('updated');
+	user_role.trigger('update-role');
 	role_box.append(user_role);
 
 	let extra_card_box = $('#extra-card-box');

@@ -12,15 +12,15 @@ DeclareModule('page/enter-room', ()=>{
 	role_box.append(role_list);
 	root.append(role_box);
 
-	window.updateRoles = ()=>{
+	role_list.on('update-role', () => {
 		role_list.html('');
 		$room.roles.forEach(role => {
 			let li = $(`<li></li>`);
 			li.append(PlayerRole.createImage(role));
 			role_list.append(li);
 		});
-	};
-	updateRoles();
+	});
+	role_list.trigger('update-role');
 
 	var extra_card_box = $('<div id="extra-card-box" class="box" style="display: none"><h3>Extra Cards</h3></div>');
 	var extra_card_list = $('<ul class="role-list" id="extra-card-list"></ul>');
@@ -56,7 +56,7 @@ DeclareModule('page/enter-room', ()=>{
 
 	root.append(button_area);
 
-	window.addPlayer = (player)=>{
+	let addPlayer = player => {
 		var li = $('<li></li>');
 
 		li.data('uid', player.id);
@@ -75,8 +75,9 @@ DeclareModule('page/enter-room', ()=>{
 	}
 	$room.players.push($user);
 	$room.players.forEach(addPlayer);
+	online_list.on('add-player', (e, player) => addPlayer(player));
 
-	window.removePlayer = (uid)=>{
+	online_list.on('remove-player', (e, uid) => {
 		online_list.children().each(function(){
 			var li = $(this);
 			if(li.data('uid') == uid){
@@ -85,14 +86,21 @@ DeclareModule('page/enter-room', ()=>{
 			}
 			return true;
 		});
+	});
 
-		let players = $room.players;
-		for(let i = 0; i < players.length; i++){
-			let player = players[i];
-			if(player.id == uid){
-				players.splice(i, 1);
-				break;
+	online_list.on('update-player', (e, info) => {
+		online_list.children().each(function(){
+			var user = $(this);
+			if(user.data('uid') != info.id){
+				return true;
 			}
-		}
-	}
+
+			if(info.name){
+				var nickname = user.children('.nickname');
+				nickname.text(info.name);
+			}
+
+			return false;
+		});
+	});
 });
