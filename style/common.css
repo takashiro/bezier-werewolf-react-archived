@@ -57,6 +57,7 @@ button{
 	border: 0 solid;
 	padding: 0.5em 0.8em;
 	box-sizing: content-box;
+	border-radius: 0;
 }
 
 input[type="text"],
@@ -64,6 +65,7 @@ input[type="number"]{
 	border: 0 solid;
 	padding: 0.5em 0.8em;
 	box-sizing: content-box;
+	border-radius: 0;
 }
 
 div.toast{
