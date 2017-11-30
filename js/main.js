@@ -6,6 +6,8 @@ const $user = {
 	name: ''
 };
 
+ScriptLoader = document.getElementById('script-loader');
+
 function ShowMessage(message){
 	$('#message-box').html(message);
 }
