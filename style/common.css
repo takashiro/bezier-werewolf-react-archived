@@ -55,12 +55,15 @@ button{
 	background: darkslateblue;
 	color: white;
 	border: 0 solid;
-	padding: 10px 15px;
+	padding: 0.5em 0.8em;
+	box-sizing: content-box;
 }
 
 input[type="text"],
 input[type="number"]{
+	border: 0 solid;
 	padding: 0.5em 0.8em;
+	box-sizing: content-box;
 }
 
 div.toast{
@@ -79,7 +82,6 @@ div.toast{
 .button-area button{
 	font-size: 15pt;
 	line-height: 1.4em;
-	padding: 0.5em 1em;
 	margin: 10px;
 	min-width: 6.5em;
 	overflow: hidden;
