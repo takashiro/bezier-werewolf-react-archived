@@ -30,6 +30,17 @@ DeclareModule('page/enter-lobby', () => {
 
 	root.append(join_dialog);
 
+	let try_loading_page = callback => {
+		if ($client.connected) {
+			callback();
+		} else {
+			MakeToast('Connection lost.');
+			setTimeout(() => {
+				LoadPage('login');
+			}, 3000);
+		}
+	};
+
 	join_button.click(()=>{
 		var room_id = parseInt(room_input.val(), 10);
 		if (isNaN(room_id)) {
@@ -39,13 +50,17 @@ DeclareModule('page/enter-lobby', () => {
 			return;
 		}
 
-		$client.request(net.EnterRoom, {
-			id: room_id,
-			game: 'onenightwerewolf'
+		try_loading_page(() => {
+			$client.request(net.EnterRoom, {
+				id: room_id,
+				game: 'onenightwerewolf'
+			});
 		});
 	});
 
 	create_button.click(()=>{
-		LoadPage('create-room');
+		try_loading_page(() => {
+			LoadPage('create-room');
+		});
 	});
 });

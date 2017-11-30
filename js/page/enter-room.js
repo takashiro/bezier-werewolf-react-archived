@@ -41,8 +41,12 @@ DeclareModule('page/enter-room', ()=>{
 	let return_button = $('<button type="button">RETURN</button>');
 	button_area.append(return_button);
 	return_button.click(() => {
-		$client.request(net.EnterRoom);
-		LoadPage('enter-lobby');
+		if ($client.connected) {
+			$client.request(net.EnterRoom);
+			LoadPage('enter-lobby');
+		} else {
+			LoadPage('login');
+		}
 	});
 
 	var start_button = $('<button class="owner-button" type="button">START</button>');
