@@ -42,7 +42,7 @@ DeclareModule('page/enter-lobby', () => {
 	};
 
 	join_button.click(()=>{
-		var room_id = parseInt(room_input.val(), 10);
+		let room_id = parseInt(room_input.val(), 10);
 		if (isNaN(room_id)) {
 			MakeToast('It is not a number...');
 			room_input.val('');

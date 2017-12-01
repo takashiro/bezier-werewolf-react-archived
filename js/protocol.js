@@ -2,7 +2,7 @@
 const $client = new Client;
 
 function RequestUpdateName(receiver){
-	var arg = {
+	let arg = {
 		info: {
 			name: $user.name
 		}
@@ -156,7 +156,7 @@ $client.bind(net.DeliverRoleCard, role => {
 });
 
 $client.bind(net.UpdatePhase, role => {
-	var role_box = $('#current-role');
+	let role_box = $('#current-role');
 	if(role > 0){
 		role = PlayerRole.convertToString(role);
 		role_box.html(PlayerRole.createImage(role));
@@ -179,7 +179,7 @@ function EnableSelector(list, max_num){
 	list.addClass('selectable');
 	list.unbind('click');
 	list.on('click', 'li', e => {
-		var li = $(e.currentTarget);
+		let li = $(e.currentTarget);
 		if(li.hasClass('selected')){
 			li.removeClass('selected');
 		}else{
@@ -195,14 +195,14 @@ function EnableSelector(list, max_num){
 }
 
 $client.bind(net.ChoosePlayer, num => {
-	var s = num > 1 ? 's' : '';
+	let s = num > 1 ? 's' : '';
 	$('#prompt-box').html(`Please select ${num} player${s}`);
 	EnableSelector($('#player-list'), num);
 });
 
 $client.bind(net.ChoosePlayerOrCard, limit => {
-	var s1 = limit.player > 1 ? 's' : '';
-	var s2 = limit.card > 1 ? 's' : '';
+	let s1 = limit.player > 1 ? 's' : '';
+	let s2 = limit.card > 1 ? 's' : '';
 	$('#prompt-box').html(`Please select ${limit.player} player${s1} or ${limit.card} card${s2}`);
 	EnableSelector($('#player-list'), limit.player);
 	EnableSelector($('#extra-card-list'), limit.card);
@@ -216,23 +216,23 @@ $client.bind(net.ChoosePlayerOrCard, limit => {
 });
 
 $client.bind(net.ChooseCard, num => {
-	var s = num > 1 ? 's' : '';
+	let s = num > 1 ? 's' : '';
 	$('#prompt-box').html(`Please select ${num} unused card${s}`);
 	EnableSelector($('#extra-card-list'), num);
 });
 
 function ShowPlayerRole(info){
-	var player = $room.findPlayer(info.uid);
+	let player = $room.findPlayer(info.uid);
 	if(player == null){
 		return;
 	}
-	var role = PlayerRole.convertToString(info.role);
+	let role = PlayerRole.convertToString(info.role);
 
-	var players = $('ul#player-list > li');
+	let players = $('ul#player-list > li');
 	players.each(function(){
-		var li = $(this);
+		let li = $(this);
 		if (li.data('uid') == info.uid) {
-			var role_text = li.children('.role-text');
+			let role_text = li.children('.role-text');
 			role_text.text(role.toUpperCase());
 			return false;
 		}
@@ -243,8 +243,8 @@ function ShowPlayerRole(info){
 $client.bind(net.ShowPlayerRole, ShowPlayerRole);
 
 function ShowExtraCard(info){
-	var extra_card_list = $('ul#extra-card-list > li');
-	var li = extra_card_list.eq(info.id);
+	let extra_card_list = $('ul#extra-card-list > li');
+	let li = extra_card_list.eq(info.id);
 	if(li.length > 0){
 		let role = PlayerRole.convertToString(info.role);
 		li.html(PlayerRole.createImage(role));

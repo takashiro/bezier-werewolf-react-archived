@@ -8,7 +8,7 @@ DeclareModule('page/start-game', () => {
 
 	let role_box = $('#role-box');
 	role_box.html('<h3>Your Role</h3>');
-	var user_role = $('<div id="my-role"></div>');
+	let user_role = $('<div id="my-role"></div>');
 	user_role.on('update-role', () => {
 		if ($user.role) {
 			user_role.html(PlayerRole.createImage($user.role));
@@ -24,14 +24,14 @@ DeclareModule('page/start-game', () => {
 
 	let button_area = $('#button-area');
 	button_area.html('');
-	var confirm_button = $('<button type="button">CONFIRM</button>');
+	let confirm_button = $('<button type="button">CONFIRM</button>');
 	button_area.append(confirm_button);
 
 	confirm_button.click(()=>{
-		var mode = 0;
+		let mode = 0;
 
-		var cards = [];
-		var extra_card_list = $('#extra-card-list.selectable');
+		let cards = [];
+		let extra_card_list = $('#extra-card-list.selectable');
 		if(extra_card_list.length > 0){
 			extra_card_list.unbind('click');
 			mode |= 0x1;
@@ -45,8 +45,8 @@ DeclareModule('page/start-game', () => {
 			extra_card_list.removeClass('selectable');
 		}
 
-		var players = [];
-		var player_list = $('#player-list.selectable');
+		let players = [];
+		let player_list = $('#player-list.selectable');
 		if(player_list.length > 0){
 			player_list.unbind('click');
 			mode |= 0x2;
@@ -79,10 +79,10 @@ DeclareModule('page/start-game', () => {
 		}
 	});
 
-	var infomation_box = $('<div class="box infomation-box"><h3>Current Phase</h3></div>');
-	var role_content = $('<span id="current-role"></span>');
+	let infomation_box = $('<div class="box infomation-box"><h3>Current Phase</h3></div>');
+	let role_content = $('<span id="current-role"></span>');
 	infomation_box.append(role_content);
-	var prompt_box = $('<div id="prompt-box" class="message-box"></div>');
+	let prompt_box = $('<div id="prompt-box" class="message-box"></div>');
 	prompt_box.html('Darkness falls... Watch out when there\'s a full moon...');
 	infomation_box.append(prompt_box);
 	root.append(infomation_box);

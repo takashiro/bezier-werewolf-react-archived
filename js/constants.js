@@ -33,8 +33,8 @@ const PlayerRole = DeclareEnum(
 );
 
 (()=>{
-	var num2str = {};
-	var str2num = {};
+	let num2str = {};
+	let str2num = {};
 
 	for (let role in PlayerRole) {
 		let str = role.toLowerCase();
