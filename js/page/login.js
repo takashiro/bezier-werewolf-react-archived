@@ -25,20 +25,24 @@
 
 function ConnectServer(){
 	ShowMessage('Connecting...');
-	if ($client.connected) {
+	if ($client.connected && $user.id > 0) {
 		LoadPage('enter-lobby');
 	} else {
-		if ($_GET['server']) {
-			$client.connect($_GET['server']);
-		} else {
-			let match = location.href.match(/^(\w+)\:\/\/(.*?)(?:\/.*)?$/i);
-			if (match) {
-				if (match[1] == 'file') {
-					$client.connect('localhost');
-				} else {
-					$client.connect(match[2]);
+		try {
+			if ($_GET['server']) {
+				$client.connect($_GET['server']);
+			} else {
+				let match = location.href.match(/^(\w+)\:\/\/(.*?)(?:\/.*)?$/i);
+				if (match) {
+					if (match[1] == 'file') {
+						$client.connect('localhost');
+					} else {
+						$client.connect(match[2]);
+					}
 				}
 			}
+		} catch (e) {
+			ShowMessage(e.toString());
 		}
 	}
 };
