@@ -21,6 +21,10 @@
 			ShowMessage('Connection lost.');
 		}
 	});
+
+	$client.on('error', e => {
+		ShowMessage(e.toString());
+	});
 })();
 
 function ConnectServer(){
