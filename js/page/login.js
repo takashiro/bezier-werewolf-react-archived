@@ -4,6 +4,7 @@
 
 	$client.on('open', ()=>{
 		connected = true;
+		ShowMessage('Connection established. Logging in...');
 		if (!$user.id) {
 			$client.request(net.RequestUserId);
 		} else {
