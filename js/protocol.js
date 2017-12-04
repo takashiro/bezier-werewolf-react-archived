@@ -271,8 +271,12 @@ $client.bind(net.EndGame, arg => {
 	let button_area = $('#button-area');
 	let return_button = $('<button type="button">RETURN</button>');
 	return_button.click(() => {
-		$client.request(net.EnterRoom);
-		LoadPage('enter-lobby');
+		if ($client.connected) {
+			$client.request(net.EnterRoom);
+			LoadPage('enter-lobby');
+		} else {
+			LoadPage('login');
+		}
 	});
 	button_area.html('');
 	button_area.append(return_button);
