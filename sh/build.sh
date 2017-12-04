@@ -14,9 +14,11 @@ fi
 
 ./node_modules/.bin/babel js --out-dir $OUTDIR/js --ignore $JQUERY_LIB
 
-OTHER_FILES="LICENSE README.md index.htm $JQUERY_LIB"
+OTHER_FILES="LICENSE README.md $JQUERY_LIB"
 for file in $OTHER_FILES; do
 	cp -f $file "$OUTDIR/$file"
 done
 
 cp -rf style $OUTDIR
+
+sed '/<head>/a <script src="js/lib/babel-polyfill.min.js"></script>' index.htm > "$OUTDIR/index.htm"
