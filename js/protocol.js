@@ -192,6 +192,7 @@ $client.bind(net.ChoosePlayer, num => {
 	let s = num > 1 ? 's' : '';
 	$('#prompt-box').html(`Please select ${num} player${s}`);
 
+	$selection.command = net.ChoosePlayer;
 	$selection.enabled = true;
 	$selection.submitted = false;
 	$selection.player.min = num;
@@ -208,6 +209,7 @@ $client.bind(net.ChoosePlayerOrCard, limit => {
 	let s2 = limit.card > 1 ? 's' : '';
 	$('#prompt-box').html(`Please select ${limit.player} player${s1} or ${limit.card} card${s2}`);
 
+	$selection.command = net.ChoosePlayerOrCard;
 	$selection.enabled = true;
 	$selection.submitted = false;
 	$selection.player.min = limit.player;
@@ -220,9 +222,11 @@ $client.bind(net.ChoosePlayerOrCard, limit => {
 
 	$('#player-list').click(()=>{
 		$('ul#extra-card-list > li').removeClass('selected');
+		$selection.reply = net.ChoosePlayer;
 	});
 	$('#extra-card-list').click(()=>{
 		$('ul#player-list > li').removeClass('selected');
+		$selection.reply = net.ChooseCard;
 	});
 
 	$('#confirm-button-area').trigger('enable-confirm');
@@ -232,6 +236,7 @@ $client.bind(net.ChooseCard, num => {
 	let s = num > 1 ? 's' : '';
 	$('#prompt-box').html(`Please select ${num} unused card${s}`);
 
+	$selection.command = net.ChooseCard;
 	$selection.enabled = true;
 	$selection.submitted = false;
 	$selection.player.min = 0;

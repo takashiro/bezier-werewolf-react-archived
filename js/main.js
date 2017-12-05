@@ -9,6 +9,8 @@ const $user = {
 const $selection = {
 	enabled: false,
 	submitted: false,
+	command: 0,
+	reply: 0,
 	player: {
 		min: 0,
 		max: 0

@@ -50,6 +50,50 @@ DeclareModule('page/start-game', () => {
 		confirm_button_area.removeClass('enabled');
 	});
 
+	let parse_selected_card = limit => {
+		let cards = [];
+
+		let extra_card_list = $('#extra-card-list.selectable');
+		let selected = extra_card_list.children('li.selected');
+		selected.each(function(){
+			cards.push($(this).index());
+		});
+
+		if (cards.length < limit.min) {
+			let s = limit.min > 1 ? 's' : '';
+			MakeToast(`You must select at least ${limit.min} card${s}`);
+			return;
+		} else if (cards.length > limit.max) {
+			let s = limit.min > 1 ? 's' : '';
+			MakeToast(`You can select no more than ${limit.max} card${s}`);
+			return;
+		}
+
+		return cards;
+	};
+
+	let parse_selected_player = limit => {
+		let players = [];
+
+		let player_list = $('#player-list.selectable');
+		let selected = player_list.children('li.selected');
+		selected.each(function(){
+			players.push($(this).data('uid'));
+		});
+
+		if (players.length < limit.min) {
+			let s = limit.min > 1 ? 's' : '';
+			MakeToast(`You must select at least ${limit.min} player${s}`);
+			return;
+		} else if (players.length > limit.max) {
+			let s = limit.min > 1 ? 's' : '';
+			MakeToast(`You can select no more than ${limit.max} player${s}`);
+			return;
+		}
+
+		return players;
+	};
+
 	confirm_button.click(()=>{
 		if (!$selection.enabled) {
 			MakeToast('No action required now.');
@@ -61,81 +105,62 @@ DeclareModule('page/start-game', () => {
 			return;
 		}
 
-		let mode = 0;
-
-		let cards = [];
-		if ($selection.card.max > 0) {
-			mode |= 0x1;
-
-			let extra_card_list = $('#extra-card-list.selectable');
-			let selected = null;
-			if (extra_card_list.length > 0) {
-				selected = extra_card_list.children('li.selected');
-				selected.each(function(){
-					cards.push($(this).index());
-				});
-			}
-
-			if (cards.length < $selection.card.min) {
-				let s = $selection.card.min > 1 ? 's' : '';
-				MakeToast(`You must select at least ${$selection.card.min} card${s}`);
-				return;
-			} else if (cards.length > $selection.card.max) {
-				let s = $selection.card.min > 1 ? 's' : '';
-				MakeToast(`You can select no more than ${$selection.card.max} card${s}`);
+		switch ($selection.command) {
+		case net.ChooseCard:
+			let cards = parse_selected_card($selection.card);
+			if (!cards) {
 				return;
 			}
-
-			extra_card_list.unbind('click');
-			selected.removeClass('selected');
-			extra_card_list.removeClass('selectable');
-		}
-
-		let players = [];
-		if ($selection.player.max > 0) {
-			mode |= 0x2;
-
-			let player_list = $('#player-list.selectable');
-			let selected = null;
-			if (player_list.length > 0) {
-				selected = player_list.children('li.selected');
-				selected.each(function(){
-					players.push($(this).data('uid'));
-				});
-			}
-
-			if (players.length < $selection.player.min) {
-				let s = $selection.player.min > 1 ? 's' : '';
-				MakeToast(`You must select at least ${$selection.player.min} player${s}`);
-				return;
-			} else if (players.length > $selection.player.max) {
-				let s = $selection.player.min > 1 ? 's' : '';
-				MakeToast(`You can select no more than ${$selection.player.max} player${s}`);
-				return;
-			}
-
-			player_list.unbind('click');
-			selected.removeClass('selected');
-			player_list.removeClass('selectable');
-		}
-
-		if(mode == 1){
 			$client.request(net.ChooseCard, cards);
-		}else if(mode == 2){
+			break;
+		case net.ChoosePlayer:
+			let players = parse_selected_player($selection.player);
+			if (!players) {
+				return;
+			}
 			$client.request(net.ChoosePlayer, players);
-		}else if(mode == 3){
-			if(cards.length > 0){
-				$client.request(net.ChoosePlayerOrCard, {
-					type: 'card',
-					targets: cards
-				});
-			}else{
+			break;
+		case net.ChoosePlayerOrCard:
+			switch ($selection.reply) {
+			case net.ChoosePlayer:
+				let players = parse_selected_player($selection.player);
+				if (!players) {
+					return;
+				}
 				$client.request(net.ChoosePlayerOrCard, {
 					type: 'player',
 					targets: players
 				});
+				break;
+			case net.ChooseCard:
+				let cards = parse_selected_card($selection.card);
+				if (!cards) {
+					return;
+				}
+				$client.request(net.ChoosePlayerOrCard, {
+					type: 'card',
+					targets: cards
+				});
+				break;
+			default:
+				MakeToast('Please choose players or cards.');
+				return;
 			}
+			break;
+		default:
+			MakeToast('Unknown server command.');
+			return;
 		}
+
+		let extra_card_list = $('#extra-card-list');
+		extra_card_list.unbind('click');
+		extra_card_list.children().removeClass('selected');
+		extra_card_list.removeClass('selectable');
+
+		let player_list = $('#player-list');
+		player_list.unbind('click');
+		player_list.children().removeClass('selected');
+		player_list.removeClass('selectable');
 
 		$selection.submitted = true;
 		confirm_button_area.trigger('disable-confirm');
