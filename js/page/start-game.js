@@ -28,34 +28,70 @@ DeclareModule('page/start-game', () => {
 	button_area.append(confirm_button);
 
 	confirm_button.click(()=>{
+		if (!$selection.enabled) {
+			MakeToast('No action required now.');
+			return;
+		}
+
+		if ($selection.submitted) {
+			MakeToast('God has already received your answer.');
+			return;
+		}
+
 		let mode = 0;
 
 		let cards = [];
-		let extra_card_list = $('#extra-card-list.selectable');
-		if(extra_card_list.length > 0){
-			extra_card_list.unbind('click');
+		if ($selection.card.max > 0) {
 			mode |= 0x1;
 
-			let selected = extra_card_list.children('li.selected');
-			selected.each(function(){
-				cards.push($(this).index());
-			});
+			let extra_card_list = $('#extra-card-list.selectable');
+			let selected = null;
+			if (extra_card_list.length > 0) {
+				selected = extra_card_list.children('li.selected');
+				selected.each(function(){
+					cards.push($(this).index());
+				});
+			}
 
+			if (cards.length < $selection.card.min) {
+				let s = $selection.card.min > 1 ? 's' : '';
+				MakeToast(`You must select at least ${$selection.card.min} card${s}`);
+				return;
+			} else if (cards.length > $selection.card.max) {
+				let s = $selection.card.min > 1 ? 's' : '';
+				MakeToast(`You can select no more than ${$selection.card.max} card${s}`);
+				return;
+			}
+
+			extra_card_list.unbind('click');
 			selected.removeClass('selected');
 			extra_card_list.removeClass('selectable');
 		}
 
 		let players = [];
-		let player_list = $('#player-list.selectable');
-		if(player_list.length > 0){
-			player_list.unbind('click');
+		if ($selection.player.max > 0) {
 			mode |= 0x2;
 
-			let selected = player_list.children('li.selected');
-			selected.each(function(){
-				players.push($(this).data('uid'));
-			});
+			let player_list = $('#player-list.selectable');
+			let selected = null;
+			if (player_list.length > 0) {
+				selected = player_list.children('li.selected');
+				selected.each(function(){
+					players.push($(this).data('uid'));
+				});
+			}
 
+			if (players.length < $selection.player.min) {
+				let s = $selection.player.min > 1 ? 's' : '';
+				MakeToast(`You must select at least ${$selection.player.min} player${s}`);
+				return;
+			} else if (players.length > $selection.player.max) {
+				let s = $selection.player.min > 1 ? 's' : '';
+				MakeToast(`You can select no more than ${$selection.player.max} player${s}`);
+				return;
+			}
+
+			player_list.unbind('click');
 			selected.removeClass('selected');
 			player_list.removeClass('selectable');
 		}
@@ -77,6 +113,9 @@ DeclareModule('page/start-game', () => {
 				});
 			}
 		}
+
+		$selection.submitted = true;
+		MakeToast(`Done!`);
 	});
 
 	let infomation_box = $('<div class="box infomation-box"><h3>Current Phase</h3></div>');

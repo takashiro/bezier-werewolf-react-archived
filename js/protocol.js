@@ -158,6 +158,7 @@ $client.bind(net.DeliverRoleCard, role => {
 $client.bind(net.UpdatePhase, role => {
 	let role_box = $('#current-role');
 	if(role > 0){
+		$selection.enabled = false;
 		role = PlayerRole.convertToString(role);
 		role_box.html(PlayerRole.createImage(role));
 	}else{
@@ -197,6 +198,14 @@ function EnableSelector(list, max_num){
 $client.bind(net.ChoosePlayer, num => {
 	let s = num > 1 ? 's' : '';
 	$('#prompt-box').html(`Please select ${num} player${s}`);
+
+	$selection.enabled = true;
+	$selection.submitted = false;
+	$selection.player.min = num;
+	$selection.player.max = num;
+	$selection.card.min = 0;
+	$selection.card.max = 0;
+
 	EnableSelector($('#player-list'), num);
 });
 
@@ -204,6 +213,14 @@ $client.bind(net.ChoosePlayerOrCard, limit => {
 	let s1 = limit.player > 1 ? 's' : '';
 	let s2 = limit.card > 1 ? 's' : '';
 	$('#prompt-box').html(`Please select ${limit.player} player${s1} or ${limit.card} card${s2}`);
+
+	$selection.enabled = true;
+	$selection.submitted = false;
+	$selection.player.min = limit.player;
+	$selection.player.max = limit.player;
+	$selection.card.min = limit.card;
+	$selection.card.max = limit.card;
+
 	EnableSelector($('#player-list'), limit.player);
 	EnableSelector($('#extra-card-list'), limit.card);
 
@@ -218,6 +235,14 @@ $client.bind(net.ChoosePlayerOrCard, limit => {
 $client.bind(net.ChooseCard, num => {
 	let s = num > 1 ? 's' : '';
 	$('#prompt-box').html(`Please select ${num} unused card${s}`);
+
+	$selection.enabled = true;
+	$selection.submitted = false;
+	$selection.player.min = 0;
+	$selection.player.max = 0;
+	$selection.card.min = num;
+	$selection.card.max = num;
+
 	EnableSelector($('#extra-card-list'), num);
 });
 
