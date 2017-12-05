@@ -163,14 +163,7 @@ $client.bind(net.UpdatePhase, role => {
 		role_box.html(PlayerRole.createImage(role));
 	}else{
 		role_box.html('Daytime~~');
-		let button_area = $('#button-area');
-		button_area.html('');
-
-		let game_over_button = $('<button type="button">GAME OVER</button>');
-		game_over_button.click(() => {
-			$client.request(net.EndGame);
-		});
-		button_area.append(game_over_button);
+		$('#button-area').trigger('game-over');
 	}
 
 	$('#prompt-box').html('');
@@ -207,6 +200,7 @@ $client.bind(net.ChoosePlayer, num => {
 	$selection.card.max = 0;
 
 	EnableSelector($('#player-list'), num);
+	$('#confirm-button-area').trigger('enable-confirm');
 });
 
 $client.bind(net.ChoosePlayerOrCard, limit => {
@@ -230,6 +224,8 @@ $client.bind(net.ChoosePlayerOrCard, limit => {
 	$('#extra-card-list').click(()=>{
 		$('ul#player-list > li').removeClass('selected');
 	});
+
+	$('#confirm-button-area').trigger('enable-confirm');
 });
 
 $client.bind(net.ChooseCard, num => {
@@ -244,6 +240,7 @@ $client.bind(net.ChooseCard, num => {
 	$selection.card.max = num;
 
 	EnableSelector($('#extra-card-list'), num);
+	$('#confirm-button-area').trigger('enable-confirm');
 });
 
 function ShowPlayerRole(info){

@@ -24,8 +24,31 @@ DeclareModule('page/start-game', () => {
 
 	let button_area = $('#button-area');
 	button_area.html('');
+
+	let confirm_button_area = $('<div id="confirm-button-area"></div>');
 	let confirm_button = $('<button type="button">CONFIRM</button>');
-	button_area.append(confirm_button);
+	confirm_button_area.append(confirm_button);
+	let waiting_message = $('<span class="inline-message"></span>');
+	waiting_message.html('Waiting...');
+	confirm_button_area.append(waiting_message);
+	button_area.append(confirm_button_area);
+
+	button_area.one('game-over', () => {
+		button_area.html('');
+		let game_over_button = $('<button type="button">GAME OVER</button>');
+		game_over_button.click(() => {
+			$client.request(net.EndGame);
+		});
+		button_area.append(game_over_button);
+	});
+
+	confirm_button_area.on('enable-confirm', () => {
+		confirm_button_area.addClass('enabled');
+	});
+
+	confirm_button_area.on('disable-confirm', () => {
+		confirm_button_area.removeClass('enabled');
+	});
 
 	confirm_button.click(()=>{
 		if (!$selection.enabled) {
@@ -115,6 +138,7 @@ DeclareModule('page/start-game', () => {
 		}
 
 		$selection.submitted = true;
+		confirm_button_area.trigger('disable-confirm');
 		MakeToast(`Done!`);
 	});
 

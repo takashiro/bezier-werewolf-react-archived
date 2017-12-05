@@ -248,3 +248,19 @@ ul.player-list li.selected{
 .space-line{
 	height: 20px;
 }
+
+#confirm-button-area > button{
+	display: none;
+}
+
+#confirm-button-area > .inline-message{
+	display: block;
+}
+
+#confirm-button-area.enabled > button{
+	display: inline-block;
+}
+
+#confirm-button-area.enabled > .inline-message{
+	display: none;
+}
