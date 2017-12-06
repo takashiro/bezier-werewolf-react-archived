@@ -35,11 +35,17 @@ DeclareModule('page/start-game', () => {
 
 	button_area.one('game-over', () => {
 		button_area.html('');
-		let game_over_button = $('<button type="button">GAME OVER</button>');
-		game_over_button.click(() => {
-			$client.request(net.EndGame);
-		});
-		button_area.append(game_over_button);
+		if ($room.owner.id == $user.id) {
+			let reveal_all_button = $('<button type="button">REVEAL ALL</button>');
+			reveal_all_button.click(() => {
+				$client.request(net.EndGame);
+			});
+			button_area.append(reveal_all_button);
+		} else {
+			let message = $('<div class="inline-message"></div>');
+			message.html('Free talk~');
+			button_area.append(message);
+		}
 	});
 
 	confirm_button_area.on('enable-confirm', () => {
