@@ -168,13 +168,17 @@ function EnableSelector(list, max_num){
 	list.unbind('click');
 	list.on('click', 'li', e => {
 		let li = $(e.currentTarget);
-		if(li.hasClass('selected')){
+		if (li.hasClass('disabled')) {
+			return;
+		}
+
+		if (li.hasClass('selected')) {
 			li.removeClass('selected');
-		}else{
+		} else {
 			let selected = list.children('li.selected');
-			if(selected.length < max_num){
+			if (selected.length < max_num) {
 				li.addClass('selected');
-			}else if(max_num == 1){
+			} else if(max_num == 1) {
 				selected.removeClass('selected');
 				li.addClass('selected');
 			}
@@ -182,43 +186,68 @@ function EnableSelector(list, max_num){
 	});
 }
 
-$client.bind(net.ChoosePlayer, num => {
-	let s = num > 1 ? 's' : '';
-	$('#prompt-box').html(`Please select ${num} player${s}`);
+function DisableOption(list, condition) {
+	list.children().each(function(){
+		let li = $(this);
+		if (condition(li)) {
+			li.addClass('disabled');
+		} else {
+			li.removeClass('disabled');
+		}
+	});
+}
+
+$client.bind(net.ChoosePlayer, limit => {
+	let s = limit.num > 1 ? 's' : '';
+	let prompt = `Please select ${limit.num} player${s}`;
+	if (limit.exclude_self) {
+		prompt += ' (except yourself)';
+	}
+	$('#prompt-box').html(prompt);
 
 	$selection.command = net.ChoosePlayer;
 	$selection.enabled = true;
 	$selection.submitted = false;
-	$selection.player.min = num;
-	$selection.player.max = num;
+	$selection.player.min = limit.num;
+	$selection.player.max = limit.num;
 	$selection.card.min = 0;
 	$selection.card.max = 0;
 
-	EnableSelector($('#player-list'), num);
+	let player_list = $('#player-list');
+	if (limit.exclude_self) {
+		DisableOption(player_list, li => li.data('uid') == $user.id);
+	}
+	EnableSelector(player_list, limit.num);
 	$('#confirm-button-area').trigger('enable-confirm');
 });
 
 $client.bind(net.ChoosePlayerOrCard, limit => {
-	let s1 = limit.player > 1 ? 's' : '';
-	let s2 = limit.card > 1 ? 's' : '';
-	$('#prompt-box').html(`Please select ${limit.player} player${s1} or ${limit.card} card${s2}`);
+	let s1 = limit.player_num > 1 ? 's' : '';
+	let s2 = limit.card_num > 1 ? 's' : '';
+	let except = limit.exclude_self ? ' (except yourself)' : '';
+	$('#prompt-box').html(`Please select ${limit.player_num} player${s1}${except} or ${limit.card_num} card${s2}`);
 
 	$selection.command = net.ChoosePlayerOrCard;
 	$selection.enabled = true;
 	$selection.submitted = false;
-	$selection.player.min = limit.player;
-	$selection.player.max = limit.player;
-	$selection.card.min = limit.card;
-	$selection.card.max = limit.card;
 
-	EnableSelector($('#player-list'), limit.player);
-	EnableSelector($('#extra-card-list'), limit.card);
+	let player_list = $('#player-list');
+	if (limit.exclude_self) {
+		DisableOption(player_list, li => li.data('uid') == $user.id);
+	}
+	EnableSelector(player_list, limit.player_num);
+	$selection.player.min = limit.player_num;
+	$selection.player.max = limit.player_num;
 
-	$('#player-list').click(()=>{
+	EnableSelector($('#extra-card-list'), limit.card_num);
+	$selection.card.min = limit.card_num;
+	$selection.card.max = limit.card_num;
+
+	$('#player-list').click(() => {
 		$('ul#extra-card-list > li').removeClass('selected');
 		$selection.reply = net.ChoosePlayer;
 	});
-	$('#extra-card-list').click(()=>{
+	$('#extra-card-list').click(() => {
 		$('ul#player-list > li').removeClass('selected');
 		$selection.reply = net.ChooseCard;
 	});

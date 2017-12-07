@@ -160,13 +160,19 @@ DeclareModule('page/start-game', () => {
 
 		let extra_card_list = $('#extra-card-list');
 		extra_card_list.unbind('click');
-		extra_card_list.children().removeClass('selected');
 		extra_card_list.removeClass('selectable');
+
+		let extra_cards = extra_card_list.children();
+		extra_cards.removeClass('selected');
+		extra_cards.removeClass('disabled');
 
 		let player_list = $('#player-list');
 		player_list.unbind('click');
-		player_list.children().removeClass('selected');
 		player_list.removeClass('selectable');
+
+		let players = player_list.children();
+		players.removeClass('selected');
+		players.removeClass('disabled');
 
 		$selection.submitted = true;
 		confirm_button_area.trigger('disable-confirm');

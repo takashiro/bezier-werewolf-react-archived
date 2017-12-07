@@ -206,6 +206,11 @@ ul.player-list li.selected{
 	color: black;
 }
 
+ul.player-list li.disabled{
+    background: #223131;
+    color: lightgray;
+}
+
 #root{
 	position: relative;
 }
