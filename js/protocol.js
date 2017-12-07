@@ -99,6 +99,11 @@ $client.bind(net.UpdateRoom, args => {
 		$('.role-list').trigger('update-role');
 	}
 
+	if (args.extra_card_num) {
+		$room.extra_card_num = args.extra_card_num;
+		$('#extra-card-list').trigger('update-card');
+	}
+
 	if (args.owner_id) {
 		let owner_id = parseInt(args.owner_id, 10);
 		if (!isNaN(owner_id) && owner_id > 0) {

@@ -9,6 +9,7 @@ class Room {
 
 		this.roles = [];
 		this.players = [];
+		this.extra_card_num = 3;
 	}
 
 	findPlayer(uid){

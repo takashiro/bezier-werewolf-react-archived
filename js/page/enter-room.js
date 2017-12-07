@@ -24,10 +24,13 @@ DeclareModule('page/enter-room', ()=>{
 
 	let extra_card_box = $('<div id="extra-card-box" class="box" style="display: none"><h3>Extra Cards</h3></div>');
 	let extra_card_list = $('<ul class="role-list" id="extra-card-list"></ul>');
-	for (let i = 0; i < 3; i++) {
-		let card = $('<li><div class="role background"></div></li>');
-		extra_card_list.append(card);
-	}
+	extra_card_list.on('update-card', () => {
+		extra_card_list.html('');
+		for (let i = 0; i < $room.extra_card_num; i++) {
+			let card = $('<li><div class="role background"></div></li>');
+			extra_card_list.append(card);
+		}
+	});
 	extra_card_box.append(extra_card_list);
 	root.append(extra_card_box);
 
@@ -53,8 +56,14 @@ DeclareModule('page/enter-room', ()=>{
 	if ($room.owner.id != $user.id) {
 		start_button.hide();
 	}
-	start_button.click(()=>{
-		$client.request(net.StartGame);
+	start_button.click(() => {
+		if ($room.players.length + $room.extra_card_num <= $room.roles.length) {
+			$client.request(net.StartGame);
+		} else {
+			let player_num = $room.roles.length - $room.extra_card_num;
+			let s = player_num > 1 ? 's' : '';
+			MakeToast(`The room is only capable of ${player_num} player${s}`);
+		}
 	});
 	button_area.append(start_button);
 
