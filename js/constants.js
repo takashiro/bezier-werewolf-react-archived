@@ -1,7 +1,6 @@
 
 const net = DeclareCommand(
 	'UpdatePlayer',
-	'DeliverRoleCard',
 	'UpdatePhase',
 	'ChoosePlayer',
 	'ChoosePlayerOrCard',

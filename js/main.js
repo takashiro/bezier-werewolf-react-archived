@@ -3,6 +3,7 @@ const $room = new Room;
 
 const $user = {
 	id: 0,
+	role: 0,
 	name: ''
 };
 

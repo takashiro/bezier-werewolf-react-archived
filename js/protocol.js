@@ -149,12 +149,6 @@ $client.bind(net.StartGame, ()=>{
 	LoadPage('start-game');
 });
 
-$client.bind(net.DeliverRoleCard, role => {
-	role = PlayerRole.convertToString(role);
-	$user.role = role;
-	$('#my-role').trigger('update-role');
-});
-
 $client.bind(net.UpdatePhase, role => {
 	let role_box = $('#current-role');
 	if(role > 0){
@@ -265,6 +259,11 @@ function ShowPlayerRole(info){
 		}
 		return true;
 	});
+
+	if (info.uid == $user.id) {
+		$user.role = role;
+		$('#my-role').trigger('update-role');
+	}
 }
 
 $client.bind(net.ShowPlayerRole, ShowPlayerRole);
