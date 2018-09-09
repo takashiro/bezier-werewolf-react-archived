@@ -1,0 +1,27 @@
+
+.lobby {
+
+	.form-dialog {
+		text-align: center;
+		margin: 0 20px 70px 20px;
+
+		input[type="text"],
+		input[type="number"]{
+			width: 50%;
+			margin: 15px 0;
+			font-size: 16pt;
+			line-height: 1.2em;
+			text-align: center;
+		}
+
+		button {
+			display: block;
+			margin: 20px auto;
+			width: 50%;
+			font-size: 16pt;
+			line-height: 1.2em;
+			text-transform: uppercase;
+		}
+	}
+
+}
