@@ -1,0 +1,29 @@
+
+div.role {
+	width: 60px;
+	height: 68px;
+	border-radius: 7px;
+	display: inline-block;
+	color: white;
+	background-size: auto 86px;
+	background-position: -1px -1px;
+
+	&.background {
+		background: gray url(../style/header.jpg) no-repeat;
+		background-position: center;
+		background-size: 130px;
+		padding: 5px;
+		box-sizing: border-box;
+		border: 5px white solid;
+		overflow: hidden;
+		text-align: center;
+
+		&::before {
+			content: 'UNKNOWN';
+			font-size: 9pt;
+			color: white;
+			line-height: 45px;
+			text-shadow: black 0 0 4px;
+		}
+	}
+}
